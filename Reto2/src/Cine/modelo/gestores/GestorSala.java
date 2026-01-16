@@ -1,5 +1,5 @@
 package Cine.modelo.gestores;
 
-public class GestorSala {
+public class Gestorsala {
 
 }
