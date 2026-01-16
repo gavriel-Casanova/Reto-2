@@ -6,12 +6,18 @@ import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Pelicula;
 
 public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
 	
-	
+	/**
+	 * Esta clase valida que el DNI y la contraseña son los correctos
+	 * @param uss = DNI
+	 * @param pass = contraseña
+	 * @return retorna true si es valido el login o false si es invalido
+	 */
 	public boolean ValidarLogin(String uss, String pass) {
 		boolean ret = false;
 		
@@ -36,6 +42,13 @@ public class controlador {
 	
 	
 	
+	public void MostrarNombreDePeliculas() {
+		
+	}
+	
+	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
+		
+	}
 	
 	
 	
