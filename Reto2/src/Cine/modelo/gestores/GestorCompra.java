@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Compra;
 import Cine.modelo.utils.DBUtils;
 
