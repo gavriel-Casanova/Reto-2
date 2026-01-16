@@ -37,10 +37,7 @@ public class Sala {
 		Sala other = (Sala) obj;
 		return id_sala == other.id_sala && Objects.equals(nombre, other.nombre);
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> refs/remotes/origin/main
+
 	
 	
 }
