@@ -4,63 +4,56 @@ import java.util.Objects;
 
 public class Pelicula {
 
-	private int IdPelicula = 0;
-	private String Nombre = null;
-	private int Duracion = 0;
-	private String Genero = null;
-	private double Precio = 0;
-
+	private int id_pelicula = 0;
+	private String nombre = null;
+	private int duracion = 0;
+	private String genero = null;
+	private double precio = 0;
+	
 	public Pelicula() {
-		
 	}
-
-	public Pelicula(int idPelicula, String nombre, int duracion, String genero, double precio) {
+	public Pelicula(int id_pelicula, String nombre, int duracion, String genero, double precio) {
 		super();
-		IdPelicula = idPelicula;
-		Nombre = nombre;
-		Duracion = duracion;
-		Genero = genero;
-		Precio = precio;
+		this.id_pelicula = id_pelicula;
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.genero = genero;
+		this.precio = precio;
 	}
-
-	public int getIdPelicula() {
-		return IdPelicula;
+	public int getId_pelicula() {
+		return id_pelicula;
 	}
-
-	public void setIdPelicula(int idPelicula) {
-		IdPelicula = idPelicula;
+	public void setId_pelicula(int id_pelicula) {
+		this.id_pelicula = id_pelicula;
 	}
-
 	public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
-
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
-
 	public int getDuracion() {
-		return Duracion;
+		return duracion;
 	}
-
 	public void setDuracion(int duracion) {
-		Duracion = duracion;
+		this.duracion = duracion;
 	}
-
 	public String getGenero() {
-		return Genero;
+		return genero;
 	}
-
 	public void setGenero(String genero) {
-		Genero = genero;
+		this.genero = genero;
 	}
-
 	public double getPrecio() {
-		return Precio;
+		return precio;
 	}
-
 	public void setPrecio(double precio) {
-		Precio = precio;
+		this.precio = precio;
 	}
-
+	@Override
+	public String toString() {
+		return "Pelicula [id_pelicula=" + id_pelicula + ", nombre=" + nombre + ", duracion=" + duracion + ", genero="
+				+ genero + ", precio=" + precio + "]";
+	}
+	
 }
