@@ -94,7 +94,7 @@ public class GestorPelicula {
 	public ArrayList<Pelicula> getAllPeliculasOrdenadasPorSesion() {
 		ArrayList<Pelicula> ret = null;
 
-		String sql = "SELECT DISTINCT p.* FROM sesion s join pelicula p on s.id_pelicula = p.id_pelicula order by s.fecha_hora_inicio";
+		String sql = "SELECT DISTINCT p.* FROM sesion s join pelicula p on s.id_pelicula = p.id_pelicula where current_timestamp < s.fecha_hora_inicio order by s.fecha_hora_inicio";
 
 		
 		Connection connection = null;
