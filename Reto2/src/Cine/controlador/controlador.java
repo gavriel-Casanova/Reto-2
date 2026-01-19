@@ -7,6 +7,7 @@ import java.util.Scanner;
 import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.gestores.GestorPelicula;
 import Cine.modelo.gestores.GestorSesion;
+import Cine.modelo.pojo.Carrito;
 import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.pojo.Sesion;
@@ -14,7 +15,10 @@ import Cine.modelo.pojo.Sesion;
 public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
-	
+	private ArrayList<Carrito> CARRITO= null;
+
+
+
 	/**
 	 * Esta clase valida que el DNI y la contraseña son los correctos
 	 * @param uss = DNI
