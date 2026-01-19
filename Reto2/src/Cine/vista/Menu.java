@@ -20,5 +20,6 @@ public class Menu {
 		controlador.MostrarPeliculasPorOrdenDeSesion();
 		Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
 		controlador.MostrarSesionesDeUnaPelicula(peliculaSeleccionada);
+		controlador.SeleccionarSesion(peliculaSeleccionada);
 	}
 }

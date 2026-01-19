@@ -15,79 +15,98 @@ import Cine.modelo.pojo.Sesion;
 public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
-	private ArrayList<Carrito> CARRITO= null;
-
-
+	private ArrayList<Carrito> CARRITO = null;
 
 	/**
 	 * Esta clase valida que el DNI y la contraseña son los correctos
-	 * @param uss = DNI
+	 * 
+	 * @param uss  = DNI
 	 * @param pass = contraseña
 	 * @return retorna true si es valido el login o false si es invalido
 	 */
 	public boolean ValidarLogin(String uss, String pass) {
 		boolean ret = false;
-		
+
 		GestorCliente gestorCliente = new GestorCliente();
 		ArrayList<Cliente> clientes = gestorCliente.getAllClientes();
-		
+
 		for (int i = 0; i < clientes.size(); i++) {
 			if (uss.equalsIgnoreCase(clientes.get(i).getDNI())) {
-				if (uss.equalsIgnoreCase(clientes.get(i).getDNI()) && pass.equalsIgnoreCase(clientes.get(i).getContrasenia())) {
+				if (uss.equalsIgnoreCase(clientes.get(i).getDNI())
+						&& pass.equalsIgnoreCase(clientes.get(i).getContrasenia())) {
 					ret = true;
 				}
 			}
 		}
-		
-		
+
 		if (ret == false) {
 			System.out.println("DNI o contraseña incorrectos");
 		}
-		
+
 		return ret;
 	}
-	
-	
-	
+
 	public void MostrarPeliculasPorOrdenDeSesion() {
 		GestorPelicula gestorPelicula = new GestorPelicula();
 		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
-		
-		for(int i =0; i < peliculas.size();i++) {
+
+		for (int i = 0; i < peliculas.size(); i++) {
 			System.out.println(peliculas.get(i).toString());
 		}
 	}
-	
+
 	public Pelicula seleccionDePelicula() {
-		
 		Pelicula ret = null;
 		GestorPelicula gestorPelicula = new GestorPelicula();
 		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
-		
+
 		System.out.print("Indique el numero de la pelicula seleccionada: ");
 		int idPelicula = pedirNumeroEnteroRango(peliculas.size());
-		
-		for(int i =0; i < peliculas.size();i++) {
-			if(peliculas.get(i).getId_pelicula() == idPelicula) {
+
+		for (int i = 0; i < peliculas.size(); i++) {
+			if (peliculas.get(i).getId_pelicula() == idPelicula) {
 				ret = peliculas.get(i);
 			}
 		}
-		
+
 		return ret;
 	}
-	
+
 	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
-		
-		for(int i=0;i< sesiones.size();i++) {
+
+		for (int i = 0; i < sesiones.size(); i++) {
 			System.out.println(sesiones.get(i).toString());
 		}
-		
+
+	}
+
+	public void SeleccionarSesion(Pelicula pelicula) {
+		GestorSesion gestorSesion = new GestorSesion();
+		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
+
+		System.out.print("Indique el numero de la sesion seleccionada: ");
+		int idSesion = pedirNumeroEnteroRango(sesiones.size());
+		System.out.print("Indique el numero de personas asistentes a la sesion: ");
+		int cantidadPersonas = pedirNumeroEntero();
+
+		for (int i = 0; i < sesiones.size(); i++) {
+			if (sesiones.get(i).getId_sesion() == idSesion) {
+				Carrito carrito = new Carrito(sesiones.get(i), cantidadPersonas);
+				if (CARRITO == null) {
+					CARRITO = new ArrayList<Carrito>();
+					CARRITO.add(carrito);
+				} else {
+					CARRITO.add(carrito);
+				}
+			}
+		}
+
 	}
 	
 	
-	
+
 	public static int pedirNumeroEntero() {
 		boolean numeroValido = false;
 		int numero = 0;
@@ -98,7 +117,7 @@ public class controlador {
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
-				System.out.println("Ingrese nuevamente la opcion: ");
+				System.out.print("Intente nuevamente: ");
 			}
 		} while (!numeroValido);
 
