@@ -1,5 +1,8 @@
 package Cine.vista;
 
+import Cine.controlador.controlador;
+import Cine.modelo.pojo.Pelicula;
+
 public class Menu {
 
 	
@@ -13,6 +16,9 @@ public class Menu {
 
 	private void MenuPrincipal() {
 		
-		
+		controlador controlador = new controlador();
+		controlador.MostrarPeliculasPorOrdenDeSesion();
+		Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
+		controlador.MostrarSesionesDeUnaPelicula(peliculaSeleccionada);
 	}
 }

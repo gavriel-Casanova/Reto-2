@@ -5,8 +5,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
+import Cine.modelo.gestores.GestorPelicula;
+import Cine.modelo.gestores.GestorSesion;
 import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Pelicula;
+import Cine.modelo.pojo.Sesion;
 
 public class controlador {
 
@@ -42,11 +45,40 @@ public class controlador {
 	
 	
 	
-	public void MostrarNombreDePeliculas() {
+	public void MostrarPeliculasPorOrdenDeSesion() {
+		GestorPelicula gestorPelicula = new GestorPelicula();
+		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
 		
+		for(int i =0; i < peliculas.size();i++) {
+			System.out.println(peliculas.get(i).toString());
+		}
+	}
+	
+	public Pelicula seleccionDePelicula() {
+		
+		Pelicula ret = null;
+		GestorPelicula gestorPelicula = new GestorPelicula();
+		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
+		
+		System.out.print("Indique el numero de la pelicula seleccionada: ");
+		int idPelicula = pedirNumeroEnteroRango(peliculas.size());
+		
+		for(int i =0; i < peliculas.size();i++) {
+			if(peliculas.get(i).getId_pelicula() == idPelicula) {
+				ret = peliculas.get(i);
+			}
+		}
+		
+		return ret;
 	}
 	
 	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
+		GestorSesion gestorSesion = new GestorSesion();
+		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
+		
+		for(int i=0;i< sesiones.size();i++) {
+			System.out.println(sesiones.get(i).toString());
+		}
 		
 	}
 	
@@ -69,7 +101,7 @@ public class controlador {
 		return numero;
 	}
 
-	public static int pedirNumeroEnteroRango(int minimo, int maximo) {
+	public static int pedirNumeroEnteroRango(int maximo) {
 		boolean numeroValido = false;
 		int numero = 0;
 		do {
@@ -80,7 +112,7 @@ public class controlador {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
 			}
-		} while (!numeroValido || numero < minimo || numero > maximo);
+		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
 	}
 }
