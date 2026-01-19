@@ -46,6 +46,9 @@ public class controlador {
 		return ret;
 	}
 
+	/**
+	 * Muestra las peliculas ordenadas segun el orden de las sesiones de mas cercana a mas lejana
+	 */
 	public void MostrarPeliculasPorOrdenDeSesion() {
 		GestorPelicula gestorPelicula = new GestorPelicula();
 		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
@@ -56,6 +59,10 @@ public class controlador {
 		System.out.println("0 - salir");
 	}
 
+	/**
+	 * Se encarga de que el usuario seleccione una pelicura
+	 * @return -> la pelicula seleccionada
+	 */
 	public Pelicula seleccionDePelicula() {
 		Pelicula ret = null;
 		GestorPelicula gestorPelicula = new GestorPelicula();
@@ -73,6 +80,10 @@ public class controlador {
 		return ret;
 	}
 
+	/**
+	 * Muestra todas las sesiones de una pelicula seleccionada
+	 * @param pelicula -> necesita una pelicula para funcionar
+	 */
 	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
@@ -83,6 +94,11 @@ public class controlador {
 		System.out.println("0 - salir");
 	}
 
+	/**
+	 * Se encarga de seleccionar y agrega al carrito la sesion indicada
+	 * @param pelicula -> pelicula seleccionada
+	 * @return -> true si se cancelo o false se agrego la sesion
+	 */
 	public boolean SeleccionarSesion(Pelicula pelicula) {
 		
 		boolean ret = false;
@@ -115,6 +131,10 @@ public class controlador {
 		return ret;
 	}
 	
+	/**
+	 * Se encarga de preguntar si quieres seguir comprando o no
+	 * @return -> true en caso que si o false en caso que no
+	 */
 	public boolean seguirComprando() {
 		boolean ret = false;
 		boolean valido = false;
