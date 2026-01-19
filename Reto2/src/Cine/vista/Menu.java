@@ -16,10 +16,24 @@ public class Menu {
 
 	private void MenuPrincipal() {
 		
+		boolean seguirCompra = false;
+		
 		controlador controlador = new controlador();
-		controlador.MostrarPeliculasPorOrdenDeSesion();
-		Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
-		controlador.MostrarSesionesDeUnaPelicula(peliculaSeleccionada);
-		controlador.SeleccionarSesion(peliculaSeleccionada);
+		do {
+			controlador.MostrarPeliculasPorOrdenDeSesion();
+			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
+			if(peliculaSeleccionada != null) {
+				controlador.MostrarSesionesDeUnaPelicula(peliculaSeleccionada);
+				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
+				if(!seguirCompra) {
+					seguirCompra=controlador.seguirComprando();
+				}
+				
+			}
+		}while(seguirCompra == true);
+		
+		
+		
+		
 	}
 }

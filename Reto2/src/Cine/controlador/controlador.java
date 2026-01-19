@@ -53,6 +53,7 @@ public class controlador {
 		for (int i = 0; i < peliculas.size(); i++) {
 			System.out.println(peliculas.get(i).toString());
 		}
+		System.out.println("0 - salir");
 	}
 
 	public Pelicula seleccionDePelicula() {
@@ -79,41 +80,77 @@ public class controlador {
 		for (int i = 0; i < sesiones.size(); i++) {
 			System.out.println(sesiones.get(i).toString());
 		}
-
+		System.out.println("0 - salir");
 	}
 
-	public void SeleccionarSesion(Pelicula pelicula) {
+	public boolean SeleccionarSesion(Pelicula pelicula) {
+		
+		boolean ret = false;
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
-		int idSesion = pedirNumeroEnteroRango(sesiones.size());
-		System.out.print("Indique el numero de personas asistentes a la sesion: ");
-		int cantidadPersonas = pedirNumeroEntero();
+		int idSesion = pedirNumeroEnteroRango(sesiones.getLast().getId_sesion());
+		
+		if(idSesion != 0) {
+			System.out.print("Indique el numero de personas asistentes a la sesion: ");
+			int cantidadPersonas = pedirNumeroEntero();
+			
 
-		for (int i = 0; i < sesiones.size(); i++) {
-			if (sesiones.get(i).getId_sesion() == idSesion) {
-				Carrito carrito = new Carrito(sesiones.get(i), cantidadPersonas);
-				if (CARRITO == null) {
-					CARRITO = new ArrayList<Carrito>();
-					CARRITO.add(carrito);
-				} else {
-					CARRITO.add(carrito);
+			for (int i = 0; i < sesiones.size(); i++) {
+				if (sesiones.get(i).getId_sesion() == idSesion) {
+					Carrito carrito = new Carrito(sesiones.get(i), cantidadPersonas);
+					if (CARRITO == null) {
+						CARRITO = new ArrayList<Carrito>();
+						CARRITO.add(carrito);
+					} else {
+						CARRITO.add(carrito);
+					}
 				}
 			}
+		} else {
+			ret = true;
 		}
 
+		return ret;
 	}
 	
-	
+	public boolean seguirComprando() {
+		boolean ret = false;
+		boolean valido = false;
+		
+		System.out.println("Desea seguir comprando? ");
+		System.out.print("SI / NO : ");
+		String seguirCompra = sc.nextLine();
+		
+		
+		while(valido == false) {
+			if(seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S") ) {
+				
+				ret = true;
+				valido = true;
+				
+			} else if(seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N") ) {
+				valido = true;
+			} else {
+				System.out.println("Respuesta no valida, vuelva a intentar: ");
+			}
+		}
+		
+		
+		
+		return ret;
+	}
 
 	public static int pedirNumeroEntero() {
+		
 		boolean numeroValido = false;
 		int numero = 0;
 		do {
 			try {
 				numero = sc.nextInt();
 				numeroValido = true;
+				sc.nextLine();
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
