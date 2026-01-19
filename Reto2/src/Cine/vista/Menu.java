@@ -1,5 +1,7 @@
 package Cine.vista;
 
+import Cine.controlador.controlador;
+
 public class Menu {
 
 	
@@ -13,6 +15,7 @@ public class Menu {
 
 	private void MenuPrincipal() {
 		
-		
+		controlador controlador = new controlador();
+		controlador.MostrarNombreDePeliculas();
 	}
 }

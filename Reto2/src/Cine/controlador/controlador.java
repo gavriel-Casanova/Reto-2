@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
+import Cine.modelo.gestores.GestorPelicula;
 import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Pelicula;
 
@@ -43,6 +44,12 @@ public class controlador {
 	
 	
 	public void MostrarNombreDePeliculas() {
+		GestorPelicula gestorPelicula = new GestorPelicula();
+		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
+		
+		for(int i =0; i < peliculas.size();i++) {
+			System.out.println(peliculas.get(i).toString());
+		}
 		
 	}
 	
