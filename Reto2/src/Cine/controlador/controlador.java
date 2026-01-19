@@ -162,6 +162,20 @@ public class controlador {
 		return ret;
 	}
 
+	
+	public void calcularDescuento() {
+		
+		double precioTotal =0;
+		
+		for(int i=0;i<CARRITO.size();i++) {
+			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
+		}
+		
+		precioTotal = (precioTotal * CARRITO.size())/100;
+		
+		System.out.println("Precio total: "+precioTotal);
+	}
+	
 	public static int pedirNumeroEntero() {
 		
 		boolean numeroValido = false;

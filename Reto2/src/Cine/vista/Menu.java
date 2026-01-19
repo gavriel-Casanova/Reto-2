@@ -32,7 +32,7 @@ public class Menu {
 			}
 		}while(seguirCompra == true);
 		
-		
+		controlador.calcularDescuento();
 		
 		
 	}
