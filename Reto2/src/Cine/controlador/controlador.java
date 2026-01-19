@@ -171,7 +171,13 @@ public class controlador {
 			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
 		}
 		
-		precioTotal = (precioTotal * CARRITO.size())/100;
+		if(CARRITO.size() == 1) {
+			
+		}else if(CARRITO.size() ==2) {
+			
+		}else {
+			
+		}
 		
 		System.out.println("Precio total: "+precioTotal);
 	}
