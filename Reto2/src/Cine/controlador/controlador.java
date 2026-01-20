@@ -45,6 +45,20 @@ public class controlador {
 
 		return ret;
 	}
+	
+	public Cliente getCliente(String uss) {
+		Cliente ret = new Cliente();
+
+		GestorCliente gestorCliente = new GestorCliente();
+		ArrayList<Cliente> clientes = gestorCliente.getAllClientes();
+
+		for (int i = 0; i < clientes.size(); i++) {
+			if (uss.equalsIgnoreCase(clientes.get(i).getDNI())) {
+				ret = clientes.get(i);
+			}
+		}
+		return ret;
+	}
 
 	/**
 	 * Muestra las peliculas ordenadas segun el orden de las sesiones de mas cercana
