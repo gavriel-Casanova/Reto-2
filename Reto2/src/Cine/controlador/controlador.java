@@ -166,6 +166,7 @@ public class controlador {
 	public void calcularDescuento() {
 		
 		double precioTotal =0;
+		double descuento = 0;
 		
 		for(int i=0;i<CARRITO.size();i++) {
 			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
@@ -181,6 +182,8 @@ public class controlador {
 		
 		System.out.println("Precio total: "+precioTotal);
 	}
+	
+	
 	
 	public static int pedirNumeroEntero() {
 		
