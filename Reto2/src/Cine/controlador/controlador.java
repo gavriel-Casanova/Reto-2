@@ -212,6 +212,8 @@ public class controlador {
 
 		return numero;
 	}
+	
+	
 
 	public static int pedirNumeroEnteroRango(int maximo) {
 		boolean numeroValido = false;
@@ -226,5 +228,27 @@ public class controlador {
 			}
 		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
+	}
+	
+	public boolean PreguntarSiONo() {
+		boolean ret = false;
+		boolean valido = false;
+		System.out.print("SI / NO : ");
+		String seguirCompra = sc.nextLine();
+
+		while (valido == false) {
+			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
+
+				ret = true;
+				valido = true;
+
+			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
+				valido = true;
+			} else {
+				System.out.println("Respuesta no valida, vuelva a intentar: ");
+			}
+		}
+
+		return ret;
 	}
 }

@@ -36,7 +36,16 @@ public class Menu {
 		} while (seguirCompra == true);
 
 		controlador.calcularDescuento();
-		login(controlador);
+		
+		System.out.println("Se ecuentra registrado?");
+		boolean registro = controlador.PreguntarSiONo();
+		if (registro = true) {
+			login(controlador);
+		} else {
+			
+		}
+		
+		
 	}
 
 	private void login(controlador controlador) {
