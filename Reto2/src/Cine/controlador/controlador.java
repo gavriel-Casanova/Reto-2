@@ -47,7 +47,8 @@ public class controlador {
 	}
 
 	/**
-	 * Muestra las peliculas ordenadas segun el orden de las sesiones de mas cercana a mas lejana
+	 * Muestra las peliculas ordenadas segun el orden de las sesiones de mas cercana
+	 * a mas lejana
 	 */
 	public void MostrarPeliculasPorOrdenDeSesion() {
 		GestorPelicula gestorPelicula = new GestorPelicula();
@@ -61,6 +62,7 @@ public class controlador {
 
 	/**
 	 * Se encarga de que el usuario seleccione una pelicura
+	 * 
 	 * @return -> la pelicula seleccionada
 	 */
 	public Pelicula seleccionDePelicula() {
@@ -82,6 +84,7 @@ public class controlador {
 
 	/**
 	 * Muestra todas las sesiones de una pelicula seleccionada
+	 * 
 	 * @param pelicula -> necesita una pelicula para funcionar
 	 */
 	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
@@ -96,22 +99,22 @@ public class controlador {
 
 	/**
 	 * Se encarga de seleccionar y agrega al carrito la sesion indicada
+	 * 
 	 * @param pelicula -> pelicula seleccionada
 	 * @return -> true si se cancelo o false se agrego la sesion
 	 */
 	public boolean SeleccionarSesion(Pelicula pelicula) {
-		
+
 		boolean ret = false;
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
 		int idSesion = pedirNumeroEnteroRango(sesiones.getLast().getId_sesion());
-		
-		if(idSesion != 0) {
+
+		if (idSesion != 0) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
-			
 
 			for (int i = 0; i < sesiones.size(); i++) {
 				if (sesiones.get(i).getId_sesion() == idSesion) {
@@ -130,60 +133,63 @@ public class controlador {
 
 		return ret;
 	}
-	
+
 	/**
 	 * Se encarga de preguntar si quieres seguir comprando o no
+	 * 
 	 * @return -> true en caso que si o false en caso que no
 	 */
 	public boolean seguirComprando() {
 		boolean ret = false;
 		boolean valido = false;
-		
+
 		System.out.println("Desea seguir comprando? ");
 		System.out.print("SI / NO : ");
 		String seguirCompra = sc.nextLine();
-		
-		
-		while(valido == false) {
-			if(seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S") ) {
-				
+
+		while (valido == false) {
+			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
+
 				ret = true;
 				valido = true;
-				
-			} else if(seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N") ) {
+
+			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
 				valido = true;
 			} else {
 				System.out.println("Respuesta no valida, vuelva a intentar: ");
 			}
 		}
-		
-		
-		
+
 		return ret;
 	}
 
-	
 	public void calcularDescuento() {
-		
-		double precioTotal =0;
-		
-		for(int i=0;i<CARRITO.size();i++) {
+
+		double precioTotal = 0;
+		double descuento20 = 0.20;
+		double descuento30 = 0.30;
+		double totalResta = 0;
+		for (int i = 0; i < CARRITO.size(); i++) {
 			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
 		}
-		
-		if(CARRITO.size() == 1) {
-			
-		}else if(CARRITO.size() ==2) {
-			
-		}else {
-			
+
+		if (CARRITO.size() == 1) {
+
+		} else if (CARRITO.size() == 2) {
+			// dos sesiones 20%
+			double primerDescuento = precioTotal * descuento20;
+			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento-precioTotal));
+		} else {
+			// tres o mas sesiones 30%
+			double segundoDescuento = precioTotal * descuento30;
+			System.out.println("TOTAL 30% DESCUENTO:" + (segundoDescuento - precioTotal));
 		}
-		
-		System.out.println("Precio total: "+precioTotal);
+
+		System.out.println("Precio total: " + precioTotal);
 	}
-	
+
 	public static int pedirNumeroEntero() {
-		
+
 		boolean numeroValido = false;
 		int numero = 0;
 		do {
