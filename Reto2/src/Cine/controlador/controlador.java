@@ -5,10 +5,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
+import Cine.modelo.gestores.GestorCompra;
 import Cine.modelo.gestores.GestorPelicula;
 import Cine.modelo.gestores.GestorSesion;
 import Cine.modelo.pojo.Carrito;
 import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Compra;
 import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.pojo.Sesion;
 
@@ -46,6 +48,11 @@ public class controlador {
 		return ret;
 	}
 	
+	/**
+	 * Obtiene un cliente por su DNI
+	 * @param uss -> DNI del cliente
+	 * @return -> el cliente con ese DNI
+	 */
 	public Cliente getCliente(String uss) {
 		Cliente ret = new Cliente();
 
@@ -106,7 +113,7 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		for (int i = 0; i < sesiones.size(); i++) {
-			System.out.println(sesiones.get(i).toString());
+			System.out.println((i+1)+") "+sesiones.get(i).toString());
 		}
 		System.out.println("0 - salir");
 	}
@@ -124,9 +131,9 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
-		int idSesion = pedirNumeroEnteroRango(sesiones.getLast().getId_sesion());
+		int idSesion = pedirNumeroEnteroRango(sesiones.size()+1) - 1;
 
-		if (idSesion != 0) {
+		if (idSesion != -1) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
 
@@ -180,7 +187,6 @@ public class controlador {
 	public void calcularDescuento() {
 
  		double precioTotal = 0;
-
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
 	
@@ -208,6 +214,50 @@ public class controlador {
 
 	}
 
+	public void generarEntradas() {
+		for(int i =0;i< CARRITO.size();i++) {
+			
+		}
+	}
+	
+	public Compra generarCompra(Cliente cliente){
+		Compra ret = new Compra();
+		double precioTotal = 0;
+		double descuento20 = 0.20;
+		double descuento30 = 0.30;
+	
+
+		for (int i = 0; i < CARRITO.size(); i++) {
+			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
+		}
+
+		if (CARRITO.size() == 1) {
+
+		} else if (CARRITO.size() == 2) {
+			// dos sesiones 20%
+			double primerDescuento = precioTotal * descuento20;
+			
+			ret.setDescuento_total(descuento20);
+			precioTotal = precioTotal - primerDescuento;
+		} else {
+			// tres o mas sesiones 30%
+			double segundoDescuento = precioTotal * descuento30;
+			ret.setDescuento_total(descuento30);
+			precioTotal = precioTotal - segundoDescuento;
+		}
+
+		
+		ret.setPrecio_total(precioTotal);
+		ret.setDNI(cliente.getDNI());
+		
+		GestorCompra gestorCompra = new GestorCompra();
+		gestorCompra.insert(ret);
+		
+		ret = gestorCompra.getCompraByDNIAndFecha(ret);
+		
+		return ret;
+	}
+	
 	public static int pedirNumeroEntero() {
 
 		boolean numeroValido = false;

@@ -22,8 +22,8 @@ public class Menu {
 	private void MenuPrincipal() {
 
 		boolean seguirCompra = false;
-
 		controlador controlador = new controlador();
+		
 		do {
 			controlador.MostrarPeliculasPorOrdenDeSesion();
 			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
