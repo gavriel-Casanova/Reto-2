@@ -169,7 +169,6 @@ public class controlador {
 
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
-	
 
 		for (int i = 0; i < CARRITO.size(); i++) {
 			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
@@ -180,9 +179,7 @@ public class controlador {
 		} else if (CARRITO.size() == 2) {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
-			precioTotal = precioTotal - primerDescuento;
-			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento));
-			
+			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento - precioTotal));
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
@@ -192,6 +189,28 @@ public class controlador {
 
 		System.out.println("Precio total: " + precioTotal);
 
+	}
+
+	public Cliente registroCliente() {
+		Cliente ret = new Cliente();
+		System.out.println("Dame numero DNI:");
+		String dni = sc.nextLine();
+		System.out.println("Dame nombre:");
+		String nombre = sc.nextLine();
+		System.out.println("Dame apellido:");
+		String apellido = sc.nextLine();
+		System.out.println("Dame correo electronico");
+		String correo_electronico = sc.nextLine();
+		System.out.println("Contraseña");
+		String contrasena = sc.nextLine();
+		
+		ret.setCorreo_electronico(correo_electronico);
+		ret.setApellido(apellido);
+		ret.setDNI(dni);
+		ret.setNombre(nombre);
+		ret.setContrasenia(contrasena);
+		
+		return ret;
 	}
 
 	public static int pedirNumeroEntero() {
@@ -227,4 +246,5 @@ public class controlador {
 		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
 	}
+
 }
