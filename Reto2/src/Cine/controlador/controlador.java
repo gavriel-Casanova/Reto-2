@@ -5,10 +5,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
+import Cine.modelo.gestores.GestorCompra;
 import Cine.modelo.gestores.GestorPelicula;
 import Cine.modelo.gestores.GestorSesion;
 import Cine.modelo.pojo.Carrito;
 import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Compra;
 import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.pojo.Sesion;
 
@@ -43,6 +45,25 @@ public class controlador {
 			System.out.println("DNI o contraseña incorrectos");
 		}
 
+		return ret;
+	}
+	
+	/**
+	 * Obtiene un cliente por su DNI
+	 * @param uss -> DNI del cliente
+	 * @return -> el cliente con ese DNI
+	 */
+	public Cliente getCliente(String uss) {
+		Cliente ret = new Cliente();
+
+		GestorCliente gestorCliente = new GestorCliente();
+		ArrayList<Cliente> clientes = gestorCliente.getAllClientes();
+
+		for (int i = 0; i < clientes.size(); i++) {
+			if (uss.equalsIgnoreCase(clientes.get(i).getDNI())) {
+				ret = clientes.get(i);
+			}
+		}
 		return ret;
 	}
 
@@ -92,7 +113,7 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		for (int i = 0; i < sesiones.size(); i++) {
-			System.out.println(sesiones.get(i).toString());
+			System.out.println((i+1)+") "+sesiones.get(i).toString());
 		}
 		System.out.println("0 - salir");
 	}
@@ -110,9 +131,9 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
-		int idSesion = pedirNumeroEnteroRango(sesiones.getLast().getId_sesion());
+		int idSesion = pedirNumeroEnteroRango(sesiones.size()+1) - 1;
 
-		if (idSesion != 0) {
+		if (idSesion != -1) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
 
@@ -166,7 +187,6 @@ public class controlador {
 	public void calcularDescuento() {
 
  		double precioTotal = 0;
-
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
 
@@ -231,6 +251,8 @@ public class controlador {
 
 		return numero;
 	}
+	
+	
 
 	public static int pedirNumeroEnteroRango(int maximo) {
 		boolean numeroValido = false;

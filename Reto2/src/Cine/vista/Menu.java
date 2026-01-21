@@ -3,11 +3,13 @@ package Cine.vista;
 import java.util.Scanner;
 
 import Cine.controlador.controlador;
+import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Pelicula;
 
 public class Menu {
 
 	public static Scanner sc = new Scanner(System.in);
+	private Cliente CLIENTE = null;
 
 	public void Iniciar() {
 		try {
@@ -20,8 +22,8 @@ public class Menu {
 	private void MenuPrincipal() {
 
 		boolean seguirCompra = false;
-
 		controlador controlador = new controlador();
+		
 		do {
 			controlador.MostrarPeliculasPorOrdenDeSesion();
 			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
@@ -36,10 +38,21 @@ public class Menu {
 		} while (seguirCompra == true);
 
 		controlador.calcularDescuento();
-		login(controlador);
+		
+		System.out.println("Se ecuentra registrado?");
+		boolean registro = controlador.PreguntarSiONo();
+		if (registro == true) {
+			CLIENTE = login(controlador);
+		} else {
+			
+		}
+		
+		
+		
 	}
 
-	private void login(controlador controlador) {
+	private Cliente login(controlador controlador) {
+		Cliente ret = null;
 		boolean bloqueo = false;
 		int intentos = 0;
 		while (bloqueo == false) {
@@ -52,10 +65,13 @@ public class Menu {
 			if (intentos == 3) {
 				bloqueo = true;
 			}
+			if (bloqueo == true) {
+				ret = controlador.getCliente(DNI);
+			}
 		}
 
-		if (bloqueo == true) {
-			System.out.println("login correcto");
-		}
+		
+		
+		return ret;
 	}
 }
