@@ -165,7 +165,8 @@ public class controlador {
 
 	public void calcularDescuento() {
 
-		double precioTotal = 0;
+ 		double precioTotal = 0;
+
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
 
@@ -182,10 +183,12 @@ public class controlador {
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
-			System.out.println("TOTAL 30% DESCUENTO:" + (segundoDescuento - precioTotal));
+			precioTotal = precioTotal - segundoDescuento;
+			System.out.println("TOTAL 30% DESCUENTO:" + (segundoDescuento));
 		}
 
 		System.out.println("Precio total: " + precioTotal);
+
 	}
 
 	public Cliente registroCliente() {
