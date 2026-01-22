@@ -148,7 +148,7 @@ public class GestorCompra {
 		Compra ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "SELECT * FROM `compra` WHERE `dni` = '"+compra.getDNI()+"' and `fecha_hora_compra` = '"+compra.getFecha_hora_compra()+"'";
+		String sql = "SELECT * FROM `compra` WHERE `dni` = '"+compra.getDNI()+"' order by `fecha_hora_compra` limit 1";
 		
 
 		// La conexion con BBDD
