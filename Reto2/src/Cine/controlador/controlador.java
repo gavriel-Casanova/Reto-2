@@ -137,17 +137,14 @@ public class controlador {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
 
-			for (int i = 0; i < sesiones.size(); i++) {
-				if (sesiones.get(i).getId_sesion() == idSesion) {
-					Carrito carrito = new Carrito(sesiones.get(i), cantidadPersonas);
-					if (CARRITO == null) {
-						CARRITO = new ArrayList<Carrito>();
-						CARRITO.add(carrito);
-					} else {
-						CARRITO.add(carrito);
-					}
-				}
+			Carrito carrito = new Carrito(sesiones.get(idSesion), cantidadPersonas);
+			if (CARRITO == null) {
+				CARRITO = new ArrayList<Carrito>();
+				CARRITO.add(carrito);
+			} else {
+				CARRITO.add(carrito);
 			}
+			
 		} else {
 			ret = true;
 		}

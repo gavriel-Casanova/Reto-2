@@ -94,7 +94,7 @@ public class GestorSesion {
 	public ArrayList<Sesion> getSesionDePelicula(int idPelicula) {
 		ArrayList<Sesion> ret = null;
 
-		String sql = "SELECT * FROM `sesion` WHERE id_pelicula = "+idPelicula;
+		String sql = "SELECT * FROM `sesion` WHERE id_pelicula = "+idPelicula+" and current_timestamp < fecha_hora_inicio order by fecha_hora_inicio";
 
 		Connection connection = null;
 
@@ -173,7 +173,7 @@ public class GestorSesion {
 	public ArrayList<Sesion> getSesionesDisponibles() {
 		ArrayList<Sesion> ret = null;
 
-		String sql = "select * from sesion current_timestamp < fecha_hora_inicio order by fecha_hora_inicio";
+		String sql = "select * from sesion where current_timestamp < fecha_hora_inicio order by fecha_hora_inicio";
 
 		Connection connection = null;
 

@@ -37,6 +37,7 @@ public class Menu {
 			}
 		} while (seguirCompra == true);
 
+		
 		controlador.calcularDescuento();
 		
 		System.out.println("Se ecuentra registrado?");
