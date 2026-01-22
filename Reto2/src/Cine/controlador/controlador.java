@@ -294,6 +294,10 @@ public class controlador {
 		return numero;
 	}
 	
+	/**
+	 * recibe un si o un no por teclado y lo transoforma en booleano
+	 * @return -> true = si o false = no
+	 */
 	public boolean PreguntarSiONo() {
 		boolean ret = false;
 		boolean valido = false;
