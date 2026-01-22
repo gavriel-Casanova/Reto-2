@@ -249,6 +249,7 @@ public class controlador {
 			double segundoDescuento = precioTotal * descuento30;
 			ret.setDescuento_total(descuento30);
 			precioTotal = precioTotal - segundoDescuento;
+
 		}
 
 		
@@ -325,3 +326,4 @@ public class controlador {
 		return ret;
 	}
 }
+
