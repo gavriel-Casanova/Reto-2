@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.gestores.GestorCompra;
+import Cine.modelo.gestores.GestorEntrada;
 import Cine.modelo.gestores.GestorPelicula;
 import Cine.modelo.gestores.GestorSesion;
 import Cine.modelo.pojo.Carrito;
 import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Compra;
+import Cine.modelo.pojo.Entrada;
 import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.pojo.Sesion;
 
@@ -213,8 +215,32 @@ public class controlador {
 
 	public void generarEntradas(Compra compra) {
 		for(int i =0;i< CARRITO.size();i++) {
+			Entrada entrada = new Entrada();
+			double precioTotal = CARRITO.get(i).getSesion().getPrecio();
+			double descuento20 = 0.20;
+			double descuento30 = 0.30;
+			if (CARRITO.size() == 1) {
+
+			} else if (CARRITO.size() == 2) {
+				// dos sesiones 20%
+				double primerDescuento = precioTotal * descuento20;
+				entrada.setDescuento(primerDescuento);
+				precioTotal = precioTotal - primerDescuento;
+			} else {
+				// tres o mas sesiones 30%
+				double segundoDescuento = precioTotal * descuento30;
+				entrada.setDescuento(descuento30);
+				precioTotal = precioTotal - segundoDescuento;
+			}
+			entrada.setPrecio(precioTotal);
+			entrada.setId_sesion(CARRITO.get(i).getSesion().getId_sesion());
+			entrada.setNum_personas(CARRITO.get(i).getNum_personas());
+			entrada.setId_compra(compra.getId_compra());
 			
+			GestorEntrada gestorEntrada = new GestorEntrada();
+			gestorEntrada.insert(entrada);
 		}
+		
 	}
 	
 	/**
@@ -248,8 +274,6 @@ public class controlador {
 			precioTotal = precioTotal - segundoDescuento;
 
 		}
-
-		
 		ret.setPrecio_total(precioTotal);
 		ret.setDNI(cliente.getDNI());
 		

@@ -112,13 +112,13 @@ public class GestorCompra {
 			statement = connection.createStatement();
 
 			// Montamos la SQL. Esta es una forma simple de hacerlo, hay otra mejor...
-			String sql = "INSERT INTO `compra`(`descuento_total`, `precio_total`, `dni`) VALUES (?,?,?)";
-			PreparedStatement ps = connection.prepareStatement(sql);
+			String sql = "INSERT INTO compra (descuento_total, precio_total, dni) VALUES ( ?, ?, ? )";
+			PreparedStatement ps = connection.prepareStatement(sql); 
 			
 			
-			ps.setDouble(0, log.getDescuento_total());
-			ps.setDouble(1, log.getPrecio_total());
-			ps.setString(2, log.getDNI());
+			ps.setDouble(1, log.getDescuento_total());
+			ps.setDouble(2, log.getPrecio_total());
+			ps.setString(3, log.getDNI());
 			
 			// La ejecutamos...
 			ps.executeUpdate();
@@ -148,7 +148,7 @@ public class GestorCompra {
 		Compra ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "SELECT * FROM `compra` WHERE `dni` = '"+compra.getDNI()+"' order by `fecha_hora_compra` limit 1";
+		String sql = "SELECT * FROM `compra` WHERE `dni` = '"+compra.getDNI()+"' order by fecha_hora_compra DESC limit 1";
 		
 
 		// La conexion con BBDD

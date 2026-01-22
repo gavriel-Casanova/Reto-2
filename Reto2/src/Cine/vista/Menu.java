@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import Cine.controlador.controlador;
 import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Compra;
 import Cine.modelo.pojo.Pelicula;
 
 public class Menu {
@@ -48,6 +49,8 @@ public class Menu {
 			
 		}
 		
+		Compra compra = controlador.generarCompra(CLIENTE);
+		controlador.generarEntradas(compra);
 		
 		
 	}
