@@ -285,6 +285,12 @@ public class controlador {
 		return ret;
 	}
 	
+	
+	public void registrarUsuario() {
+	
+		
+	}
+	
 	public static int pedirNumeroEntero() {
 
 		boolean numeroValido = false;

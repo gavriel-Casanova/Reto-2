@@ -45,9 +45,7 @@ public class Menu {
 		boolean registro = controlador.PreguntarSiONo();
 		if (registro == true) {
 			CLIENTE = login(controlador);
-		} else {
-			
-		}
+		} 
 		
 		Compra compra = controlador.generarCompra(CLIENTE);
 		controlador.generarEntradas(compra);
