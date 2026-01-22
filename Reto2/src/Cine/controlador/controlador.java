@@ -220,6 +220,11 @@ public class controlador {
 		}
 	}
 	
+	/**
+	 * Genera la compra y la agrega a la base de datos
+	 * @param cliente -> necesario para rellenar los datos y asignar la compra
+	 * @return -> la compra generada
+	 */
 	public Compra generarCompra(Cliente cliente){
 		Compra ret = new Compra();
 		double precioTotal = 0;
