@@ -214,7 +214,7 @@ public class controlador {
 
 	}
 
-	public void generarEntradas() {
+	public void generarEntradas(Compra compra) {
 		for(int i =0;i< CARRITO.size();i++) {
 			
 		}
