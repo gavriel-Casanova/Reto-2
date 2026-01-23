@@ -33,6 +33,7 @@ public class Menu {
 				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
 				if (!seguirCompra) {
 					seguirCompra = controlador.seguirComprando();
+					controlador.enseñarcarrito();
 				}
 
 			}

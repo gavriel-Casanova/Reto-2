@@ -285,6 +285,10 @@ public class controlador {
 		return ret;
 	}
 
+	/**
+	 * Registra un usuario desde 0
+	 * @return -> el nuevo cliente registrado
+	 */
 	public Cliente registrarUsuario() {
 
 		Cliente ret = new Cliente();
@@ -301,11 +305,15 @@ public class controlador {
 		
 		GestorCliente gestorCliente = new GestorCliente();
 		gestorCliente.insert(ret);
-		
+		System.out.println("-- Registro realizado con exito --");
 		return ret;
 
 	}
 
+	/**
+	 * Comprueba si el correo que se quiere ingresar es valido
+	 * @return -> un correo valido
+	 */
 	public String comprobarCorreo() {
 		String ret = null;
 		boolean valido = false;
@@ -324,6 +332,10 @@ public class controlador {
 		return ret;
 	}
 	
+	/**
+	 * Comprueba que el usuario agregue una contraseña sin errores: Usa una comprobacion con una confirmacion 
+	 * @return -> la contraseña deseada
+	 */
 	public String comprobarContraseña() {
 		String ret = null;
 		boolean valido = false;
@@ -345,6 +357,10 @@ public class controlador {
 		return ret;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String comprobarDni() {
 		String ret = null;
 		boolean valido = false;
@@ -366,6 +382,24 @@ public class controlador {
 		} while (!valido);
 
 		return ret;
+	}
+	
+	public void enseñarcarrito() {
+
+		System.out.println("_________________________________________");
+		System.out.println("--- Carrito ----");
+		System.out.println("_________________________________________");
+		for(int i =0;i<carritoTotal.size();i++) {
+			System.out.println("La sesion :");
+			System.out.println(carritoTotal.get(i).getSesion().toString());
+			System.out.println("La pelicula: ");
+			GestorPelicula gestorPelicula = new GestorPelicula();
+			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
+			System.out.println(pelicula.toString());
+			System.out.println("Para "+carritoTotal.get(i).getNum_personas()+" Personas");
+			
+			System.out.println("_________________________________________");
+		}
 	}
 
 	public static int pedirNumeroEntero() {
