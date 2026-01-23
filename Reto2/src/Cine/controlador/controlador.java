@@ -385,7 +385,6 @@ public class controlador {
 	}
 	
 	public void enseñarcarrito() {
-
 		System.out.println("_________________________________________");
 		System.out.println("--- Carrito ----");
 		System.out.println("_________________________________________");
