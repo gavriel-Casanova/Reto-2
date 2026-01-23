@@ -265,12 +265,12 @@ public class controlador {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
 
-			ret.setDescuento_total(descuento20);
+			ret.setDescuento_total(primerDescuento);
 			precioTotal = precioTotal - primerDescuento;
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
-			ret.setDescuento_total(descuento30);
+			ret.setDescuento_total(segundoDescuento);
 			precioTotal = precioTotal - segundoDescuento;
 
 		}
