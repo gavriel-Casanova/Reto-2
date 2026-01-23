@@ -27,27 +27,27 @@ public class GestorPelicula {
 		ResultSet resultSet = null;
 
 		try {
-			// El Driver que vamos a usar
+			
 			Class.forName(DBUtils.DRIVER);
 
-			// Abrimos la conexion con BBDD
+		
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
-			// Vamos a lanzar la sentencia...
+			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			// Recorremos resultSet, que tiene las filas de la tabla
+			
 			while (resultSet.next()) {
 
-				// Hay al menos una fila en el cursos, inicializamos el ArrayList
+				
 				if (null == ret)
 					ret = new ArrayList<Pelicula>();
 
-				// El Alumno
+				
 				Pelicula pelicula = new Pelicula();
 
-				// Sacamos las columnas del resultSet
+				
 				int id_pelicula = resultSet.getInt("id_pelicula");
 				String nombre = resultSet.getString("nombre");
 				int duracion = resultSet.getInt("duracion");
@@ -60,7 +60,7 @@ public class GestorPelicula {
 				pelicula.setGenero(genero);
 				
 				
-				// Lo guardamos en la lista
+				
 				ret.add(pelicula);
 			}
 		} catch (SQLException sqle) {
@@ -68,24 +68,24 @@ public class GestorPelicula {
 		} catch (Exception e) {
 			System.out.println("Error generico - " + e.getMessage());
 		} finally {
-			// Cerramos al reves de como las abrimos
+			
 			try {
 				if (resultSet != null)
 					resultSet.close();
 			} catch (Exception e) {
-				// No hace falta
+				
 			}
 			try {
 				if (statement != null)
 					statement.close();
 			} catch (Exception e) {
-				// No hace falta
+				
 			}
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (Exception e) {
-				// No hace falta
+				
 			}
 		}
 		return ret;
@@ -104,27 +104,27 @@ public class GestorPelicula {
 		ResultSet resultSet = null;
 
 		try {
-			// El Driver que vamos a usar
+			
 			Class.forName(DBUtils.DRIVER);
 
-			// Abrimos la conexion con BBDD
+			
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
-			// Vamos a lanzar la sentencia...
+			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			// Recorremos resultSet, que tiene las filas de la tabla
+			
 			while (resultSet.next()) {
 
-				// Hay al menos una fila en el cursos, inicializamos el ArrayList
+				
 				if (null == ret)
 					ret = new ArrayList<Pelicula>();
 
-				// El Alumno
+				
 				Pelicula pelicula = new Pelicula();
 
-				// Sacamos las columnas del resultSet
+			
 				int id_pelicula = resultSet.getInt("id_pelicula");
 				String nombre = resultSet.getString("nombre");
 				int duracion = resultSet.getInt("duracion");
@@ -137,7 +137,7 @@ public class GestorPelicula {
 				pelicula.setGenero(genero);
 				
 				
-				// Lo guardamos en la lista
+			
 				ret.add(pelicula);
 			}
 		} catch (SQLException sqle) {
@@ -145,24 +145,101 @@ public class GestorPelicula {
 		} catch (Exception e) {
 			System.out.println("Error generico - " + e.getMessage());
 		} finally {
-			// Cerramos al reves de como las abrimos
+			
 			try {
 				if (resultSet != null)
 					resultSet.close();
 			} catch (Exception e) {
-				// No hace falta
+			
 			}
 			try {
 				if (statement != null)
 					statement.close();
 			} catch (Exception e) {
-				// No hace falta
+				
 			}
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (Exception e) {
-				// No hace falta
+				
+			}
+		}
+		return ret;
+	}
+	
+	public Pelicula getPeliculaById(int id) {
+		Pelicula ret = null;
+
+		String sql = "select * from Pelicula where id_pelicula = "+id;
+
+		
+		Connection connection = null;
+
+		
+		Statement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			
+			Class.forName(DBUtils.DRIVER);
+
+			
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			// Vamos a lanzar la sentencia...
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+
+			
+			while (resultSet.next()) {
+
+				
+				if (null == ret)
+					ret = new Pelicula();
+
+			
+				Pelicula pelicula = new Pelicula();
+
+				
+				int id_pelicula = resultSet.getInt("id_pelicula");
+				String nombre = resultSet.getString("nombre");
+				int duracion = resultSet.getInt("duracion");
+				String genero = resultSet.getString("genero");
+				
+
+				pelicula.setId_pelicula(id_pelicula);
+				pelicula.setNombre(nombre);
+				pelicula.setDuracion(duracion);
+				pelicula.setGenero(genero);
+				
+				
+				
+				ret = pelicula;
+			}
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+			
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (Exception e) {
+			
+			}
+			try {
+				if (statement != null)
+					statement.close();
+			} catch (Exception e) {
+				
+			}
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+				
 			}
 		}
 		return ret;

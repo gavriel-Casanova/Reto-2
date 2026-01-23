@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import Cine.controlador.controlador;
 import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Compra;
 import Cine.modelo.pojo.Pelicula;
 
 public class Menu {
@@ -32,11 +33,13 @@ public class Menu {
 				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
 				if (!seguirCompra) {
 					seguirCompra = controlador.seguirComprando();
+					controlador.enseñarcarrito();
 				}
 
 			}
 		} while (seguirCompra == true);
 
+		
 		controlador.calcularDescuento();
 		
 		System.out.println("Se ecuentra registrado?");
@@ -44,9 +47,11 @@ public class Menu {
 		if (registro == true) {
 			CLIENTE = login(controlador);
 		} else {
-			
+			CLIENTE = controlador.registrarUsuario();
 		}
 		
+		Compra compra = controlador.generarCompra(CLIENTE);
+		controlador.generarEntradas(compra);
 		
 		
 	}

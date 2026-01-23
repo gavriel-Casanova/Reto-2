@@ -2,6 +2,7 @@ package Cine.modelo.gestores;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,27 +24,21 @@ public class GestorEntrada {
 		ResultSet resultSet = null;
 
 		try {
-			// El Driver que vamos a usar
+
 			Class.forName(DBUtils.DRIVER);
 
-			// Abrimos la conexion con BBDD
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
-			// Vamos a lanzar la sentencia...
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			// Recorremos resultSet, que tiene las filas de la tabla
 			while (resultSet.next()) {
 
-				// Hay al menos una fila en el cursos, inicializamos el ArrayList
 				if (null == ret)
 					ret = new ArrayList<Entrada>();
 
-				// El Alumno
 				Entrada entrada = new Entrada();
 
-				// Sacamos las columnas del resultSet
 				int id_entrada = resultSet.getInt("id_entrada ");
 				int id_sesion = resultSet.getInt("id_sesion");
 				int num_personas = resultSet.getInt("num_personas");
@@ -58,7 +53,6 @@ public class GestorEntrada {
 				entrada.setPrecio(precio);
 				entrada.setId_compra(id_compra);
 
-				// Lo guardamos en la lista
 				ret.add(entrada);
 			}
 		} catch (SQLException sqle) {
@@ -66,26 +60,72 @@ public class GestorEntrada {
 		} catch (Exception e) {
 			System.out.println("Error generico - " + e.getMessage());
 		} finally {
-			// Cerramos al reves de como las abrimos
+
 			try {
 				if (resultSet != null)
 					resultSet.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (statement != null)
 					statement.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 		}
 		return ret;
+	}
+
+	public void insert(Entrada log) {
+
+		Connection connection = null;
+
+		Statement statement = null;
+
+		try {
+
+			Class.forName(DBUtils.DRIVER);
+
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			statement = connection.createStatement();
+
+			String sql = "INSERT INTO entrada ( id_sesion ,  num_personas ,  descuento ,  precio ,  id_compra ) VALUES (?,?,?,?,?)";
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			ps.setInt(1, log.getId_sesion());
+			ps.setInt(2, log.getNum_personas());
+			ps.setDouble(3, log.getDescuento());
+			ps.setDouble(4, log.getPrecio());
+			ps.setInt(5, log.getId_compra());
+
+			ps.executeUpdate();
+
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+
+			try {
+				if (statement != null)
+					statement.close();
+			} catch (Exception e) {
+
+			}
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+
+			}
+		}
 	}
 }
