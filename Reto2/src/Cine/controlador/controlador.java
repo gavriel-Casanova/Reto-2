@@ -19,7 +19,7 @@ import Cine.modelo.pojo.Sesion;
 public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
-	private ArrayList<Carrito> CARRITO = null;
+	private ArrayList<Carrito> carritoTotal = null;
 
 	/**
 	 * Esta clase valida que el DNI y la contraseña son los correctos
@@ -49,9 +49,10 @@ public class controlador {
 
 		return ret;
 	}
-	
+
 	/**
 	 * Obtiene un cliente por su DNI
+	 * 
 	 * @param uss -> DNI del cliente
 	 * @return -> el cliente con ese DNI
 	 */
@@ -115,7 +116,7 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		for (int i = 0; i < sesiones.size(); i++) {
-			System.out.println((i+1)+") "+sesiones.get(i).toString());
+			System.out.println((i + 1) + ") " + sesiones.get(i).toString());
 		}
 		System.out.println("0 - salir");
 	}
@@ -133,20 +134,20 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
-		int idSesion = pedirNumeroEnteroRango(sesiones.size()+1) - 1;
+		int idSesion = pedirNumeroEnteroRango(sesiones.size() + 1) - 1;
 
 		if (idSesion != -1) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
 
 			Carrito carrito = new Carrito(sesiones.get(idSesion), cantidadPersonas);
-			if (CARRITO == null) {
-				CARRITO = new ArrayList<Carrito>();
-				CARRITO.add(carrito);
+			if (carritoTotal == null) {
+				carritoTotal = new ArrayList<Carrito>();
+				carritoTotal.add(carrito);
 			} else {
-				CARRITO.add(carrito);
+				carritoTotal.add(carrito);
 			}
-			
+
 		} else {
 			ret = true;
 		}
@@ -185,23 +186,22 @@ public class controlador {
 
 	public void calcularDescuento() {
 
- 		double precioTotal = 0;
+		double precioTotal = 0;
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
-	
 
-		for (int i = 0; i < CARRITO.size(); i++) {
-			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
+		for (int i = 0; i < carritoTotal.size(); i++) {
+			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
 		}
 
-		if (CARRITO.size() == 1) {
+		if (carritoTotal.size() == 1) {
 
-		} else if (CARRITO.size() == 2) {
+		} else if (carritoTotal.size() == 2) {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
 			precioTotal = precioTotal - primerDescuento;
 			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento));
-			
+
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
@@ -214,14 +214,14 @@ public class controlador {
 	}
 
 	public void generarEntradas(Compra compra) {
-		for(int i =0;i< CARRITO.size();i++) {
+		for (int i = 0; i < carritoTotal.size(); i++) {
 			Entrada entrada = new Entrada();
-			double precioTotal = CARRITO.get(i).getSesion().getPrecio();
+			double precioTotal = carritoTotal.get(i).getSesion().getPrecio();
 			double descuento20 = 0.20;
 			double descuento30 = 0.30;
-			if (CARRITO.size() == 1) {
+			if (carritoTotal.size() == 1) {
 
-			} else if (CARRITO.size() == 2) {
+			} else if (carritoTotal.size() == 2) {
 				// dos sesiones 20%
 				double primerDescuento = precioTotal * descuento20;
 				entrada.setDescuento(primerDescuento);
@@ -233,38 +233,38 @@ public class controlador {
 				precioTotal = precioTotal - segundoDescuento;
 			}
 			entrada.setPrecio(precioTotal);
-			entrada.setId_sesion(CARRITO.get(i).getSesion().getId_sesion());
-			entrada.setNum_personas(CARRITO.get(i).getNum_personas());
+			entrada.setId_sesion(carritoTotal.get(i).getSesion().getId_sesion());
+			entrada.setNum_personas(carritoTotal.get(i).getNum_personas());
 			entrada.setId_compra(compra.getId_compra());
-			
+
 			GestorEntrada gestorEntrada = new GestorEntrada();
 			gestorEntrada.insert(entrada);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Genera la compra y la agrega a la base de datos
+	 * 
 	 * @param cliente -> necesario para rellenar los datos y asignar la compra
 	 * @return -> la compra generada
 	 */
-	public Compra generarCompra(Cliente cliente){
+	public Compra generarCompra(Cliente cliente) {
 		Compra ret = new Compra();
 		double precioTotal = 0;
 		double descuento20 = 0.20;
 		double descuento30 = 0.30;
-	
 
-		for (int i = 0; i < CARRITO.size(); i++) {
-			precioTotal = CARRITO.get(i).getSesion().getPrecio() + precioTotal;
+		for (int i = 0; i < carritoTotal.size(); i++) {
+			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
 		}
 
-		if (CARRITO.size() == 1) {
+		if (carritoTotal.size() == 1) {
 
-		} else if (CARRITO.size() == 2) {
+		} else if (carritoTotal.size() == 2) {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
-			
+
 			ret.setDescuento_total(descuento20);
 			precioTotal = precioTotal - primerDescuento;
 		} else {
@@ -276,21 +276,98 @@ public class controlador {
 		}
 		ret.setPrecio_total(precioTotal);
 		ret.setDNI(cliente.getDNI());
-		
+
 		GestorCompra gestorCompra = new GestorCompra();
 		gestorCompra.insert(ret);
-		
+
 		ret = gestorCompra.getCompraByDNIAndFecha(ret);
+
+		return ret;
+	}
+
+	public Cliente registrarUsuario() {
+
+		Cliente ret = new Cliente();
+
+		System.out.print("Ingrese su nombre: ");
+		ret.setNombre(sc.nextLine());
+		System.out.print("Ingrese su apellido: ");
+		ret.setApellido(sc.nextLine());
+		System.out.print("Ingrese su DNI: ");
+		ret.setDNI(comprobarDni());
+		System.out.print("Ingrese su correo electronico: ");
+		ret.setCorreo_electronico(comprobarCorreo());
+		ret.setContrasenia(comprobarContraseña());
 		
+		GestorCliente gestorCliente = new GestorCliente();
+		gestorCliente.insert(ret);
+		
+		return ret;
+
+	}
+
+	public String comprobarCorreo() {
+		String ret = null;
+		boolean valido = false;
+
+		do {
+
+			ret = sc.nextLine();
+			if (ret.contains("@")) {
+				valido = true;
+			} else {
+				System.out.print("Correo electronico no valido, vuelva a intentar: ");
+			}
+
+		} while (!valido);
+
 		return ret;
 	}
 	
-	
-	public void registrarUsuario() {
-	
-		
+	public String comprobarContraseña() {
+		String ret = null;
+		boolean valido = false;
+
+		do {
+			System.out.print("Ingrese su contraseña: ");
+			String pass1 = sc.nextLine();
+			System.out.print("Confirme su contraseña: ");
+			String pass2 = sc.nextLine();
+			
+			if(pass1.equals(pass2)) {
+				ret = pass2;
+				valido = true;
+			} else {
+				System.out.println("Las contraseñas no coinciden, vuelva a intentarlo");
+			}
+			
+		} while (!valido);
+		return ret;
 	}
-	
+
+	public String comprobarDni() {
+		String ret = null;
+		boolean valido = false;
+
+		do {
+
+			ret = sc.nextLine();
+			if (ret.contains("T") || ret.contains("R") || ret.contains("W") || ret.contains("A") || ret.contains("G")
+					|| ret.contains("M") || ret.contains("Y") || ret.contains("F") || ret.contains("P")
+					|| ret.contains("D") || ret.contains("X") || ret.contains("B") || ret.contains("N")
+					|| ret.contains("J") || ret.contains("Z") || ret.contains("S") || ret.contains("Q")
+					|| ret.contains("V") || ret.contains("H") || ret.contains("L") || ret.contains("C")
+					|| ret.contains("K") || ret.contains("E")) {
+				valido = true;
+			} else {
+				System.out.print("DNI no valido, vuelva a intentar: ");
+			}
+
+		} while (!valido);
+
+		return ret;
+	}
+
 	public static int pedirNumeroEntero() {
 
 		boolean numeroValido = false;
@@ -309,8 +386,6 @@ public class controlador {
 
 		return numero;
 	}
-	
-	
 
 	public static int pedirNumeroEnteroRango(int maximo) {
 		boolean numeroValido = false;
@@ -326,9 +401,10 @@ public class controlador {
 		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
 	}
-	
+
 	/**
 	 * recibe un si o un no por teclado y lo transoforma en booleano
+	 * 
 	 * @return -> true = si o false = no
 	 */
 	public boolean PreguntarSiONo() {
@@ -353,4 +429,3 @@ public class controlador {
 		return ret;
 	}
 }
-
