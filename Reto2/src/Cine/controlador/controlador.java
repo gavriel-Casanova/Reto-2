@@ -199,9 +199,7 @@ public class controlador {
 		} else if (carritoTotal.size() == 2) {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
-			precioTotal = precioTotal - primerDescuento;
-			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento));
-
+			System.out.println("TOTAL 20%DESCUENTO:" + (primerDescuento - precioTotal));
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
@@ -213,95 +211,24 @@ public class controlador {
 
 	}
 
-	public void generarEntradas(Compra compra) {
-		for (int i = 0; i < carritoTotal.size(); i++) {
-			Entrada entrada = new Entrada();
-			double precioTotal = carritoTotal.get(i).getSesion().getPrecio();
-			double descuento20 = 0.20;
-			double descuento30 = 0.30;
-			if (carritoTotal.size() == 1) {
-
-			} else if (carritoTotal.size() == 2) {
-				// dos sesiones 20%
-				double primerDescuento = precioTotal * descuento20;
-				entrada.setDescuento(primerDescuento);
-				precioTotal = precioTotal - primerDescuento;
-			} else {
-				// tres o mas sesiones 30%
-				double segundoDescuento = precioTotal * descuento30;
-				entrada.setDescuento(descuento30);
-				precioTotal = precioTotal - segundoDescuento;
-			}
-			entrada.setPrecio(precioTotal);
-			entrada.setId_sesion(carritoTotal.get(i).getSesion().getId_sesion());
-			entrada.setNum_personas(carritoTotal.get(i).getNum_personas());
-			entrada.setId_compra(compra.getId_compra());
-
-			GestorEntrada gestorEntrada = new GestorEntrada();
-			gestorEntrada.insert(entrada);
-		}
-
-	}
-
-	/**
-	 * Genera la compra y la agrega a la base de datos
-	 * 
-	 * @param cliente -> necesario para rellenar los datos y asignar la compra
-	 * @return -> la compra generada
-	 */
-	public Compra generarCompra(Cliente cliente) {
-		Compra ret = new Compra();
-		double precioTotal = 0;
-		double descuento20 = 0.20;
-		double descuento30 = 0.30;
-
-		for (int i = 0; i < carritoTotal.size(); i++) {
-			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
-		}
-
-		if (carritoTotal.size() == 1) {
-
-		} else if (carritoTotal.size() == 2) {
-			// dos sesiones 20%
-			double primerDescuento = precioTotal * descuento20;
-
-			ret.setDescuento_total(primerDescuento);
-			precioTotal = precioTotal - primerDescuento;
-		} else {
-			// tres o mas sesiones 30%
-			double segundoDescuento = precioTotal * descuento30;
-			ret.setDescuento_total(segundoDescuento);
-			precioTotal = precioTotal - segundoDescuento;
-
-		}
-		ret.setPrecio_total(precioTotal);
-		ret.setDNI(cliente.getDNI());
-
-		GestorCompra gestorCompra = new GestorCompra();
-		gestorCompra.insert(ret);
-
-		ret = gestorCompra.getCompraByDNIAndFecha(ret);
-
-		return ret;
-	}
-
-	/**
-	 * Registra un usuario desde 0
-	 * @return -> el nuevo cliente registrado
-	 */
-	public Cliente registrarUsuario() {
-
+	public Cliente registroCliente() {
 		Cliente ret = new Cliente();
-
-		System.out.print("Ingrese su nombre: ");
-		ret.setNombre(sc.nextLine());
-		System.out.print("Ingrese su apellido: ");
-		ret.setApellido(sc.nextLine());
-		System.out.print("Ingrese su DNI: ");
-		ret.setDNI(comprobarDni());
-		System.out.print("Ingrese su correo electronico: ");
-		ret.setCorreo_electronico(comprobarCorreo());
-		ret.setContrasenia(comprobarContraseña());
+		System.out.println("Dame numero DNI:");
+		String dni = sc.nextLine();
+		System.out.println("Dame nombre:");
+		String nombre = sc.nextLine();
+		System.out.println("Dame apellido:");
+		String apellido = sc.nextLine();
+		System.out.println("Dame correo electronico");
+		String correo_electronico = sc.nextLine();
+		System.out.println("Contraseña");
+		String contrasena = sc.nextLine();
+		
+		ret.setCorreo_electronico(correo_electronico);
+		ret.setApellido(apellido);
+		ret.setDNI(dni);
+		ret.setNombre(nombre);
+		ret.setContrasenia(contrasena);
 		
 		GestorCliente gestorCliente = new GestorCliente();
 		gestorCliente.insert(ret);
@@ -330,75 +257,6 @@ public class controlador {
 		} while (!valido);
 
 		return ret;
-	}
-	
-	/**
-	 * Comprueba que el usuario agregue una contraseña sin errores: Usa una comprobacion con una confirmacion 
-	 * @return -> la contraseña deseada
-	 */
-	public String comprobarContraseña() {
-		String ret = null;
-		boolean valido = false;
-
-		do {
-			System.out.print("Ingrese su contraseña: ");
-			String pass1 = sc.nextLine();
-			System.out.print("Confirme su contraseña: ");
-			String pass2 = sc.nextLine();
-			
-			if(pass1.equals(pass2)) {
-				ret = pass2;
-				valido = true;
-			} else {
-				System.out.println("Las contraseñas no coinciden, vuelva a intentarlo");
-			}
-			
-		} while (!valido);
-		return ret;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String comprobarDni() {
-		String ret = null;
-		boolean valido = false;
-
-		do {
-
-			ret = sc.nextLine();
-			if (ret.contains("T") || ret.contains("R") || ret.contains("W") || ret.contains("A") || ret.contains("G")
-					|| ret.contains("M") || ret.contains("Y") || ret.contains("F") || ret.contains("P")
-					|| ret.contains("D") || ret.contains("X") || ret.contains("B") || ret.contains("N")
-					|| ret.contains("J") || ret.contains("Z") || ret.contains("S") || ret.contains("Q")
-					|| ret.contains("V") || ret.contains("H") || ret.contains("L") || ret.contains("C")
-					|| ret.contains("K") || ret.contains("E")) {
-				valido = true;
-			} else {
-				System.out.print("DNI no valido, vuelva a intentar: ");
-			}
-
-		} while (!valido);
-
-		return ret;
-	}
-	
-	public void enseñarcarrito() {
-		System.out.println("_________________________________________");
-		System.out.println("--- Carrito ----");
-		System.out.println("_________________________________________");
-		for(int i =0;i<carritoTotal.size();i++) {
-			System.out.println("La sesion :");
-			System.out.println(carritoTotal.get(i).getSesion().toString());
-			System.out.println("La pelicula: ");
-			GestorPelicula gestorPelicula = new GestorPelicula();
-			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
-			System.out.println(pelicula.toString());
-			System.out.println("Para "+carritoTotal.get(i).getNum_personas()+" Personas");
-			
-			System.out.println("_________________________________________");
-		}
 	}
 
 	public static int pedirNumeroEntero() {
@@ -435,30 +293,4 @@ public class controlador {
 		return numero;
 	}
 
-	/**
-	 * recibe un si o un no por teclado y lo transoforma en booleano
-	 * 
-	 * @return -> true = si o false = no
-	 */
-	public boolean PreguntarSiONo() {
-		boolean ret = false;
-		boolean valido = false;
-		System.out.print("SI / NO : ");
-		String seguirCompra = sc.nextLine();
-
-		while (valido == false) {
-			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
-
-				ret = true;
-				valido = true;
-
-			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
-				valido = true;
-			} else {
-				System.out.println("Respuesta no valida, vuelva a intentar: ");
-			}
-		}
-
-		return ret;
-	}
 }
