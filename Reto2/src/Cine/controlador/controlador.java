@@ -135,7 +135,7 @@ public class controlador {
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
-		int idSesion = pedirNumeroEnteroRango(sesiones.size() + 1) - 1;
+		int idSesion = pedirNumeroEnteroRango(sesiones.size()) - 1;
 
 		if (idSesion != -1) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
@@ -385,7 +385,7 @@ public class controlador {
 		return ret;
 	}
 	
-	public void enseñarcarrito() {
+	public void enseñarCarrito() {
 		System.out.println("_________________________________________");
 		System.out.println("--- Carrito ----");
 		System.out.println("_________________________________________");
@@ -400,6 +400,34 @@ public class controlador {
 			
 			System.out.println("_________________________________________");
 		}
+	}
+	
+	public void mostrarFactura(Cliente cliente) {
+		System.out.println("------------------------");
+		System.out.println("		 Factura		");
+		System.out.println("------------------------");
+		System.out.println(" DNI: "+cliente.getDNI());
+		System.out.println(" Cliente: "+cliente.getNombre()+" "+cliente.getApellido());
+		System.out.println("----------------------------------");
+		for(int i =0;i<carritoTotal.size();i++) {
+			System.out.print("La pelicula: ");
+			GestorPelicula gestorPelicula = new GestorPelicula();
+			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
+			System.out.print(pelicula.getNombre());
+			System.out.print(" para "+carritoTotal.get(i).getNum_personas()+" personas en la");
+			System.out.print(" sesion ");
+			System.out.println(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString()+"");
+			System.out.println("-----------------------------------");
+		}
+		
+		GestorCompra gestorCompra = new GestorCompra();
+		Compra compra = new Compra();
+		compra.setDNI(cliente.getDNI());
+		compra = gestorCompra.getCompraByDNIAndFecha(compra);
+		
+		System.out.println("Descuento: "+compra.getDescuento_total());
+		System.out.println("Precio total: "+compra.getPrecio_total());
+		System.out.println("gracias por su compra");
 	}
 
 	public static int pedirNumeroEntero() {

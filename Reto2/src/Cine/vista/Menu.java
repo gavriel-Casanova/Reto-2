@@ -33,7 +33,7 @@ public class Menu {
 				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
 				if (!seguirCompra) {
 					seguirCompra = controlador.seguirComprando();
-					controlador.enseñarcarrito();
+					controlador.enseñarCarrito();
 				}
 
 			}
@@ -53,6 +53,14 @@ public class Menu {
 		Compra compra = controlador.generarCompra(CLIENTE);
 		controlador.generarEntradas(compra);
 		
+		System.out.println("-- Compra realizada con exito --");
+		System.out.println(" Desea factura? ");
+		boolean quiereFactura = controlador.PreguntarSiONo();
+		
+		if(quiereFactura == true) {
+			controlador.mostrarFactura(CLIENTE);
+		}
+		
 		
 	}
 
@@ -66,10 +74,6 @@ public class Menu {
 			System.out.print("Ingrese su contraseña: ");
 			String pass = sc.nextLine();
 			bloqueo = controlador.ValidarLogin(DNI, pass);
-			intentos = intentos + 1;
-			if (intentos == 3) {
-				bloqueo = true;
-			}
 			if (bloqueo == true) {
 				ret = controlador.getCliente(DNI);
 			}
