@@ -97,11 +97,14 @@ public class controlador {
 		System.out.print("Indique el numero de la pelicula seleccionada: ");
 		int idPelicula = pedirNumeroEnteroRango(peliculas.size());
 
-		for (int i = 0; i < peliculas.size(); i++) {
-			if (peliculas.get(i).getId_pelicula() == idPelicula) {
-				ret = peliculas.get(i);
+		if(idPelicula != 0) {
+			for (int i = 0; i < peliculas.size(); i++) {
+				if (peliculas.get(i).getId_pelicula() == idPelicula) {
+					ret = peliculas.get(i);
+				}
 			}
 		}
+		
 
 		return ret;
 	}
@@ -117,7 +120,8 @@ public class controlador {
 
 		System.out.println("Sesiones para la pelicula "+pelicula.getNombre());
 		for (int i = 0; i < sesiones.size(); i++) {
-			System.out.println((i + 1) + ")  Fecha y hora - " + sesiones.get(i).getFecha_hora_inicio().toGMTString()+" - Precio - "+sesiones.get(i).getPrecio());
+			System.out.println((i + 1) + ")  Fecha y hora - " + sesiones.get(i).getFecha_hora_inicio().toGMTString()+" - Precio - "+sesiones.get(i).getPrecio() 
+					+" - Nº de Sala - "+sesiones.get(i).getId_sala());
 		}
 		System.out.println("0 - salir");
 	}
@@ -185,6 +189,9 @@ public class controlador {
 		return ret;
 	}
 
+	/**
+	 * Muestra el descuento aplicado a cada compra
+	 */
 	public void calcularDescuento() {
 
 		double precioTotal = 0;
@@ -214,6 +221,10 @@ public class controlador {
 
 	}
 
+	/**
+	 * Genera las entradas que se hicieron en las compra y la indexa en la base de datos
+	 * @param compra -> objeto compra para extraer los datos necesarios
+	 */
 	public void generarEntradas(Compra compra) {
 		for (int i = 0; i < carritoTotal.size(); i++) {
 			Entrada entrada = new Entrada();
@@ -427,9 +438,24 @@ public class controlador {
 		
 		System.out.println("Descuento: "+compra.getDescuento_total());
 		System.out.println("Precio total: "+compra.getPrecio_total());
-		System.out.println("gracias por su compra");
+		reiniciarPrograma();
 	}
 
+	public void reiniciarPrograma() {
+		carritoTotal = null;
+		
+	}
+	
+	public boolean programStatus() {
+		boolean ret = false;
+		
+		if (carritoTotal == null) {
+			ret = true;
+		}
+		
+		return ret;
+	}
+	
 	public static int pedirNumeroEntero() {
 
 		boolean numeroValido = false;
@@ -455,7 +481,12 @@ public class controlador {
 		do {
 			try {
 				numero = sc.nextInt();
-				numeroValido = true;
+				if(numero >= 0 && numero <= maximo) {
+					numeroValido = true;
+				} else {
+					System.out.print("Numero fuera del menu, vuelva a intentarlo: ");
+				}
+				
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
