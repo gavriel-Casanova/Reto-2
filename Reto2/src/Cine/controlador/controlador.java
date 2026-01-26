@@ -471,7 +471,10 @@ public class controlador {
 		return ret;
 	}
 	
-	public static int pedirNumeroEntero() {
+	/**
+	 * solicita un numero entero y lo devuelve
+	 */
+	public int pedirNumeroEntero() {
 
 		boolean numeroValido = false;
 		int numero = 0;
@@ -490,7 +493,12 @@ public class controlador {
 		return numero;
 	}
 
-	public static int pedirNumeroEnteroRango(int maximo) {
+	/**
+	 * pide un numero entero dentro de un rango entre 0 y n y devuelve el numero correcto 
+	 * @param maximo -> el numero maximo al q puede llegar
+	 * @return -> el numero dentro del rango
+	 */
+	public int pedirNumeroEnteroRango(int maximo) {
 		boolean numeroValido = false;
 		int numero = 0;
 		do {

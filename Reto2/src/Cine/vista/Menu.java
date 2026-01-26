@@ -10,7 +10,7 @@ import Cine.modelo.pojo.Pelicula;
 public class Menu {
 
 	public static Scanner sc = new Scanner(System.in);
-	private Cliente CLIENTE = null;
+	private Cliente cliente = null;
 
 	public void Iniciar() {
 		try {
@@ -58,12 +58,12 @@ public class Menu {
 				System.out.println("Se ecuentra registrado?");
 				boolean registro = controlador.PreguntarSiONo();
 				if (registro == true) {
-					CLIENTE = login(controlador);
+					cliente = login(controlador);
 				} else {
-					CLIENTE = controlador.registrarUsuario();
+					cliente = controlador.registrarUsuario();
 				}
 
-				Compra compra = controlador.generarCompra(CLIENTE);
+				Compra compra = controlador.generarCompra(cliente);
 				controlador.generarEntradas(compra);
 
 				System.out.println("-- Compra realizada con exito --");
@@ -71,7 +71,7 @@ public class Menu {
 				boolean quiereFactura = controlador.PreguntarSiONo();
 
 				if (quiereFactura == true) {
-					controlador.mostrarFactura(CLIENTE);
+					controlador.mostrarFactura(cliente);
 				}
 				System.out.println("gracias por su compra");
 			}
@@ -81,6 +81,12 @@ public class Menu {
 		espera3s();
 	}
 
+	/**
+	 * hace el login del cliente
+	 * 
+	 * @param controlador -> se usa para comunicarse con la base de datos
+	 * @return -> el cliente logueado
+	 */
 	private Cliente login(controlador controlador) {
 		Cliente ret = null;
 		boolean bloqueo = false;
@@ -99,12 +105,13 @@ public class Menu {
 		return ret;
 	}
 
+	/**
+	 * Deja el programa en espera durante 3 segundos
+	 */
 	private void espera3s() {
 		try {
-			// Pausa el hilo de ejeccion por 10 segundos
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			// Manejo de la excepción si el hilo es interrumpido mientras duerme
 			e.printStackTrace();
 		}
 	}
