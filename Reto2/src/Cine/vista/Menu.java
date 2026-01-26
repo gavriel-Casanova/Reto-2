@@ -15,8 +15,8 @@ public class Menu {
 	public void Iniciar() {
 		try {
 			do {
-			MenuPrincipal();
-			}while(true);
+				MenuPrincipal();
+			} while (true);
 		} catch (Exception e) {
 			System.out.println("Fatal error");
 		}
@@ -26,9 +26,9 @@ public class Menu {
 
 		boolean seguirCompra = false;
 		controlador controlador = new controlador();
-		
+
 		System.out.println("		Bienvenido ");
-		
+
 		System.out.println("             Pulsa Enter para continuar...");
 		sc.nextLine().trim();
 
@@ -43,12 +43,12 @@ public class Menu {
 					controlador.enseñarCarrito();
 				}
 
-			}else {
+			} else {
 				seguirCompra = false;
 			}
 		} while (seguirCompra == true);
 
-		if(controlador.programStatus() == false) {
+		if (controlador.programStatus() == false) {
 			controlador.calcularDescuento();
 
 			System.out.println("Esta de acuerdo con su compra?");
@@ -73,9 +73,9 @@ public class Menu {
 				if (quiereFactura == true) {
 					controlador.mostrarFactura(CLIENTE);
 				}
+				System.out.println("gracias por su compra");
 			}
 
-			System.out.println("gracias por su compra");
 		}
 		controlador.reiniciarPrograma();
 		espera3s();
@@ -98,7 +98,7 @@ public class Menu {
 
 		return ret;
 	}
-	
+
 	private void espera3s() {
 		try {
 			// Pausa el hilo de ejeccion por 10 segundos

@@ -163,7 +163,8 @@ public class controlador {
 	/**
 	 * Se encarga de preguntar si quieres seguir comprando o no
 	 * 
-	 * @return -> true en caso que si o false en caso que no
+	 * @return -> true = si  
+	 * 			false = no
 	 */
 	public boolean seguirComprando() {
 		boolean ret = false;
@@ -370,8 +371,8 @@ public class controlador {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Comprueba que el dni contenga una letra valida
+	 * @return -> el dni correcto
 	 */
 	public String comprobarDni() {
 		String ret = null;
@@ -396,6 +397,9 @@ public class controlador {
 		return ret;
 	}
 	
+	/**
+	 * muestra el contenido del carrito
+	 */
 	public void enseñarCarrito() {
 		System.out.println("_________________________________________");
 		System.out.println("--- Carrito ----");
@@ -413,6 +417,10 @@ public class controlador {
 		}
 	}
 	
+	/**
+	 * Muestra por consola la factura que se genera en la compra
+	 * @param cliente -> requiere un cliente para mostrar la informacion necesaria de la factura
+	 */
 	public void mostrarFactura(Cliente cliente) {
 		System.out.println("------------------------");
 		System.out.println("		 Factura		");
@@ -441,11 +449,18 @@ public class controlador {
 		reiniciarPrograma();
 	}
 
+	/**
+	 * Reinicia las variables de clase para que sean usadas nuevamente
+	 */
 	public void reiniciarPrograma() {
 		carritoTotal = null;
-		
 	}
 	
+	/**
+	 * Indica si el programa es apto para el uso
+	 * @return -> true = es apto 
+	 * 			false = no es apto
+	 */
 	public boolean programStatus() {
 		boolean ret = false;
 		
