@@ -448,6 +448,10 @@ public class controlador {
 		System.out.println("Precio total: "+compra.getPrecio_total());
 		reiniciarPrograma();
 	}
+	
+	public void imprimirTicket() {
+		
+	}
 
 	/**
 	 * Reinicia las variables de clase para que sean usadas nuevamente
