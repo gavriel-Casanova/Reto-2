@@ -72,6 +72,7 @@ public class Menu {
 
 				if (quiereFactura == true) {
 					controlador.mostrarFactura(cliente);
+					controlador.imprimirTicket(cliente);
 				}
 				System.out.println("gracias por su compra");
 			}

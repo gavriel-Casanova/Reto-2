@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import Cine.modelo.Ficheros.GestorFicheros;
 import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.gestores.GestorCompra;
 import Cine.modelo.gestores.GestorEntrada;
@@ -449,8 +450,24 @@ public class controlador {
 		reiniciarPrograma();
 	}
 	
-	public void imprimirTicket() {
+	public void imprimirTicket(Cliente cliente) {
+		GestorFicheros gestorFicheros = new GestorFicheros();
 		
+		gestorFicheros.sobreescribirFichero("------------------------");
+		gestorFicheros.actualizarFichero("		 Factura		");
+		gestorFicheros.actualizarFichero(" DNI: "+cliente.getDNI());
+		gestorFicheros.actualizarFichero(" Cliente: "+cliente.getNombre()+" "+cliente.getApellido());
+		gestorFicheros.actualizarFichero("----------------------------------");
+		for(int i =0;i<carritoTotal.size();i++) {
+			gestorFicheros.actualizarFichero("La pelicula: ");
+			GestorPelicula gestorPelicula = new GestorPelicula();
+			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
+			gestorFicheros.actualizarFichero(pelicula.getNombre());
+			gestorFicheros.actualizarFichero(" para "+carritoTotal.get(i).getNum_personas()+" personas en la");
+			gestorFicheros.actualizarFichero(" sesion ");
+			gestorFicheros.actualizarFichero(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString()+"");
+			gestorFicheros.actualizarFichero("-----------------------------------");
+		}
 	}
 
 	/**
