@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 
 
-public class gestorFicheros {
+public class GestorFicheros {
 	
 
 	private static final String NOMBRE_FICHERO = "Factura.txt";

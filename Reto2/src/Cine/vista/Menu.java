@@ -10,11 +10,13 @@ import Cine.modelo.pojo.Pelicula;
 public class Menu {
 
 	public static Scanner sc = new Scanner(System.in);
-	private Cliente CLIENTE = null;
+	private Cliente cliente = null;
 
 	public void Iniciar() {
 		try {
-			MenuPrincipal();
+			do {
+				MenuPrincipal();
+			} while (true);
 		} catch (Exception e) {
 			System.out.println("Fatal error");
 		}
@@ -24,7 +26,12 @@ public class Menu {
 
 		boolean seguirCompra = false;
 		controlador controlador = new controlador();
-		
+
+		System.out.println("		Bienvenido ");
+
+		System.out.println("             Pulsa Enter para continuar...");
+		sc.nextLine().trim();
+
 		do {
 			controlador.MostrarPeliculasPorOrdenDeSesion();
 			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
@@ -33,29 +40,54 @@ public class Menu {
 				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
 				if (!seguirCompra) {
 					seguirCompra = controlador.seguirComprando();
-					controlador.enseñarcarrito();
+					controlador.enseñarCarrito();
 				}
 
+			} else {
+				seguirCompra = false;
 			}
 		} while (seguirCompra == true);
 
-		
-		controlador.calcularDescuento();
-		
-		System.out.println("Se ecuentra registrado?");
-		boolean registro = controlador.PreguntarSiONo();
-		if (registro == true) {
-			CLIENTE = login(controlador);
-		} else {
-			CLIENTE = controlador.registrarUsuario();
+		if (controlador.programStatus() == false) {
+			controlador.calcularDescuento();
+
+			System.out.println("Esta de acuerdo con su compra?");
+			boolean deAcuerdo = controlador.PreguntarSiONo();
+
+			if (deAcuerdo) {
+				System.out.println("Se ecuentra registrado?");
+				boolean registro = controlador.PreguntarSiONo();
+				if (registro == true) {
+					cliente = login(controlador);
+				} else {
+					cliente = controlador.registrarUsuario();
+				}
+
+				Compra compra = controlador.generarCompra(cliente);
+				controlador.generarEntradas(compra);
+
+				System.out.println("-- Compra realizada con exito --");
+				System.out.println(" Desea factura? ");
+				boolean quiereFactura = controlador.PreguntarSiONo();
+
+				if (quiereFactura == true) {
+					controlador.mostrarFactura(cliente);
+					controlador.imprimirTicket(cliente);
+				}
+				System.out.println("gracias por su compra");
+			}
+
 		}
-		
-		Compra compra = controlador.generarCompra(CLIENTE);
-		controlador.generarEntradas(compra);
-		
-		
+		controlador.reiniciarPrograma();
+		espera3s();
 	}
 
+	/**
+	 * hace el login del cliente
+	 * 
+	 * @param controlador -> se usa para comunicarse con la base de datos
+	 * @return -> el cliente logueado
+	 */
 	private Cliente login(controlador controlador) {
 		Cliente ret = null;
 		boolean bloqueo = false;
@@ -66,17 +98,22 @@ public class Menu {
 			System.out.print("Ingrese su contraseña: ");
 			String pass = sc.nextLine();
 			bloqueo = controlador.ValidarLogin(DNI, pass);
-			intentos = intentos + 1;
-			if (intentos == 3) {
-				bloqueo = true;
-			}
 			if (bloqueo == true) {
 				ret = controlador.getCliente(DNI);
 			}
 		}
 
-		
-		
 		return ret;
+	}
+
+	/**
+	 * Deja el programa en espera durante 3 segundos
+	 */
+	private void espera3s() {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
