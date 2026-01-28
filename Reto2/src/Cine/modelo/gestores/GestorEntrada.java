@@ -8,15 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Cine.modelo.pojo.Cliente;
+import Cine.modelo.pojo.Entrada;
 import Cine.modelo.utils.DBUtils;
 
-public class GestorCliente {
+public class GestorEntrada {
 
-	public ArrayList<Cliente> getAllClientes() {
-		ArrayList<Cliente> ret = null;
+	public ArrayList<Entrada> getAllEntradas() {
+		ArrayList<Entrada> ret = null;
 
-		String sql = "select * from cliente";
+		String sql = "select * from Entrada";
 
 		Connection connection = null;
 
@@ -35,23 +35,25 @@ public class GestorCliente {
 			while (resultSet.next()) {
 
 				if (null == ret)
-					ret = new ArrayList<Cliente>();
+					ret = new ArrayList<Entrada>();
 
-				Cliente cliente = new Cliente();
+				Entrada entrada = new Entrada();
 
-				String DNI = resultSet.getString("dni");
-				String nombre = resultSet.getString("nombre");
-				String apellido = resultSet.getString("apellido");
-				String correo_electronico = resultSet.getString("correo_electronico");
-				String contrasenia = resultSet.getString("contrasenia");
+				int id_entrada = resultSet.getInt("id_entrada ");
+				int id_sesion = resultSet.getInt("id_sesion");
+				int num_personas = resultSet.getInt("num_personas");
+				double descuento = resultSet.getDouble("descuento");
+				double precio = resultSet.getDouble("precio");
+				int id_compra = resultSet.getInt("id_compra");
 
-				cliente.setDNI(DNI);
-				cliente.setNombre(nombre);
-				cliente.setApellido(apellido);
-				cliente.setCorreo_electronico(correo_electronico);
-				cliente.setContrasenia(contrasenia);
+				entrada.setId_entrada(id_entrada);
+				entrada.setId_sesion(id_sesion);
+				entrada.setNum_personas(num_personas);
+				entrada.setDescuento(descuento);
+				entrada.setPrecio(precio);
+				entrada.setId_compra(id_compra);
 
-				ret.add(cliente);
+				ret.add(entrada);
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
@@ -81,7 +83,7 @@ public class GestorCliente {
 		return ret;
 	}
 
-	public void insert(Cliente log) {
+	public void insert(Entrada log) {
 
 		Connection connection = null;
 
@@ -95,14 +97,14 @@ public class GestorCliente {
 
 			statement = connection.createStatement();
 
-			String sql = "INSERT INTO cliente ( dni ,  nombre ,  apellido , correo_electronico ,  contrasenia ) VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO entrada ( id_sesion ,  num_personas ,  descuento ,  precio ,  id_compra ) VALUES (?,?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(sql);
 
-			ps.setString(1, log.getDNI());
-			ps.setString(2, log.getNombre());
-			ps.setString(3, log.getApellido());
-			ps.setString(4, log.getCorreo_electronico());
-			ps.setString(5, log.getContrasenia());
+			ps.setInt(1, log.getId_sesion());
+			ps.setInt(2, log.getNum_personas());
+			ps.setDouble(3, log.getDescuento());
+			ps.setDouble(4, log.getPrecio());
+			ps.setInt(5, log.getId_compra());
 
 			ps.executeUpdate();
 

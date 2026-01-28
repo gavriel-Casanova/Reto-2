@@ -1,20 +1,23 @@
 package Cine.modelo.gestores;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Cine.modelo.pojo.Sala;
+import Cine.modelo.pojo.Compra;
 import Cine.modelo.utils.DBUtils;
 
-public class GestorSala {
-	public ArrayList<Sala> getAllSala() {
-		ArrayList<Sala> ret = null;
+public class GestorCompra {
 
-		String sql = "select * from sala";
+	public ArrayList<Compra> getAllCompras() {
+		ArrayList<Compra> ret = null;
+
+		String sql = "select * from compra";
 
 		Connection connection = null;
 
@@ -33,17 +36,23 @@ public class GestorSala {
 			while (resultSet.next()) {
 
 				if (null == ret)
-					ret = new ArrayList<Sala>();
+					ret = new ArrayList<Compra>();
 
-				Sala sala = new Sala();
+				Compra compra = new Compra();
 
-				int id_sala = resultSet.getInt(" id_sala");
-				String nombre = resultSet.getString("nombre");
+				int id_compra = resultSet.getInt("id_compra");
+				Date fecha_hora_compra = resultSet.getDate("fecha_hora_compra");
+				double descuento_total = resultSet.getDouble("descuento_total");
+				double precio_total = resultSet.getDouble("precio_total");
+				String DNI = resultSet.getString("dni");
 
-				sala.setId_sala(id_sala);
-				sala.setNombre(nombre);
+				compra.setId_compra(id_compra);
+				compra.setFecha_hora_compra(fecha_hora_compra);
+				compra.setDescuento_total(descuento_total);
+				compra.setPrecio_total(precio_total);
+				compra.setDNI(DNI);
 
-				ret.add(sala);
+				ret.add(compra);
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
@@ -73,7 +82,7 @@ public class GestorSala {
 		return ret;
 	}
 
-	public void insert(Sala sala) {
+	public void insert(Compra log) {
 
 		Connection connection = null;
 
@@ -87,10 +96,14 @@ public class GestorSala {
 
 			statement = connection.createStatement();
 
-			String sql = "insert into sala (id_sala, nombre) VALUES ('" + sala.getId_sala() + "', '" + sala.getNombre()
-					+ "')";
+			String sql = "INSERT INTO compra (descuento_total, precio_total, dni) VALUES ( ?, ?, ? )";
+			PreparedStatement ps = connection.prepareStatement(sql);
 
-			statement.executeUpdate(sql);
+			ps.setDouble(1, log.getDescuento_total());
+			ps.setDouble(2, log.getPrecio_total());
+			ps.setString(3, log.getDNI());
+
+			ps.executeUpdate();
 
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
@@ -113,10 +126,11 @@ public class GestorSala {
 		}
 	}
 
-	public Sala getId_salaById(int idABuscar) {
-		Sala ret = null;
+	public Compra getCompraByDNIAndFecha(Compra compra) {
+		Compra ret = null;
 
-		String sql = "select * from sala where id = '" + idABuscar + "'";
+		String sql = "SELECT * FROM `compra` WHERE `dni` = '" + compra.getDNI()
+				+ "' order by fecha_hora_compra DESC limit 1";
 
 		Connection connection = null;
 
@@ -134,13 +148,19 @@ public class GestorSala {
 
 			if (resultSet.next()) {
 
-				ret = new Sala();
+				ret = new Compra();
 
-				int id_sala = resultSet.getInt("id_sala");
-				String nombre = resultSet.getString("nombre");
+				int id_compra = resultSet.getInt("id_compra");
+				Date fecha_hora_compra = resultSet.getDate("fecha_hora_compra");
+				double descuento_total = resultSet.getDouble("descuento_total");
+				double precio_total = resultSet.getDouble("precio_total");
+				String DNI = resultSet.getString("dni");
 
-				ret.setId_sala(id_sala);
-				ret.setNombre(nombre);
+				ret.setId_compra(id_compra);
+				ret.setFecha_hora_compra(fecha_hora_compra);
+				ret.setDescuento_total(descuento_total);
+				ret.setPrecio_total(precio_total);
+				ret.setDNI(DNI);
 
 			}
 		} catch (SQLException sqle) {
