@@ -1,205 +1,230 @@
+
 package Cine.modelo.gestores;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import tienda.modelo.pojo.Gato;
-import tienda.modelo.utils.DBUtils;
+import Cine.modelo.pojo.Sesion;
+import Cine.modelo.utils.DBUtils;
 
 public class GestorSesion {
-	public ArrayList<Gato> getAllGatos() {
-		ArrayList<Gato> ret = null;
+	public ArrayList<Sesion> getAllSesion() {
+		ArrayList<Sesion> ret = null;
 
-		// SQL que queremos lanzar
-		String sql = "select * from t_gatos";
+		String sql = "select * from sesion";
 
-		// La conexion con BBDD
 		Connection connection = null;
 
-		// Vamos a lanzar una sentencia SQL contra la BBDD
-		// Result set va a contener todo lo que devuelve la BBDD
 		Statement statement = null;
 		ResultSet resultSet = null;
 
 		try {
-			// El Driver que vamos a usar
+
 			Class.forName(DBUtils.DRIVER);
 
-			// Abrimos la conexion con BBDD
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
-			// Vamos a lanzar la sentencia...
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			// Recorremos resultSet, que tiene las filas de la tabla
 			while (resultSet.next()) {
 
-				// Hay al menos una fila en el cursos, inicializamos el ArrayList
 				if (null == ret)
-					ret = new ArrayList<Gato>();
+					ret = new ArrayList<Sesion>();
 
-				// El Alumno
-				Gato gato = new Gato();
+				Sesion sesion = new Sesion(0, 0, null, null, 0, 0, 0);
 
-				// Sacamos las columnas del resultSet
-				int id = resultSet.getInt("id");
-				String nombre = resultSet.getString("nombre");
-				String raza = resultSet.getString("raza");
-				String color = resultSet.getString("color");
+				int id_sesion = resultSet.getInt("id_sesion");
+				int id_sala = resultSet.getInt("id_sala");
+				Date fecha_hora_inicio = resultSet.getDate("fecha_hora_inicio");
+				Date fecha_hora_fin = resultSet.getDate("fecha_hora_fin");
+				double precio = resultSet.getDouble("precio");
+				int num_espectadores = resultSet.getInt("num_espectadores");
+				int id_pelicula = resultSet.getInt("id_pelicula");
 
-				// Metemos los datos en Alumno
-				gato.setId(id);
-				gato.setNombre(nombre);
-				gato.setRaza(raza);
-				gato.setColor(color);
+				sesion.setId_sesion(id_sesion);
+				sesion.setId_sala(id_sala);
+				sesion.setFecha_hora_inicio(fecha_hora_inicio);
+				sesion.setFecha_hora_fin(fecha_hora_fin);
+				sesion.setPrecio(precio);
+				sesion.setNum_espectadores(num_espectadores);
+				sesion.setId_pelicula(id_pelicula);
 
-				// Lo guardamos en la lista
-				ret.add(gato);
+				ret.add(sesion);
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
 		} catch (Exception e) {
 			System.out.println("Error generico - " + e.getMessage());
 		} finally {
-			// Cerramos al reves de como las abrimos
+
 			try {
 				if (resultSet != null)
 					resultSet.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (statement != null)
 					statement.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 		}
 		return ret;
 	}
 
-	public void insert(Gato gato) {
-		// La conexion con BBDD
+	public ArrayList<Sesion> getSesionDePelicula(int idPelicula) {
+		ArrayList<Sesion> ret = null;
+
+		String sql = "SELECT * FROM `sesion` WHERE id_pelicula = " + idPelicula
+				+ " and current_timestamp < fecha_hora_inicio order by fecha_hora_inicio";
+
 		Connection connection = null;
 
-		// Vamos a lanzar una sentencia SQL contra la BBDD
-		Statement statement = null;
-
-		try {
-			// El Driver que vamos a usar
-			Class.forName(DBUtils.DRIVER);
-
-			// Abrimos la conexion con BBDD
-			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
-
-			// Vamos a lanzar la sentencia...
-			statement = connection.createStatement();
-
-			// Montamos la SQL. Esta es una forma simple de hacerlo, hay otra mejor...
-			String sql = "insert into t_gatos (nombre, raza, color) VALUES ('" + gato.getNombre() + "', '"
-					+ gato.getRaza() + "', '" + gato.getColor() + "')";
-
-			// La ejecutamos...
-			statement.executeUpdate(sql);
-
-		} catch (SQLException sqle) {
-			System.out.println("Error con la BBDD - " + sqle.getMessage());
-		} catch (Exception e) {
-			System.out.println("Error generico - " + e.getMessage());
-		} finally {
-			// Cerramos al reves de como las abrimos
-			try {
-				if (statement != null)
-					statement.close();
-			} catch (Exception e) {
-				// No hace falta
-			}
-			try {
-				if (connection != null)
-					connection.close();
-			} catch (Exception e) {
-				// No hace falta
-			}
-		}
-	}
-
-	public Gato getGatoById(int idABuscar) {
-		Gato ret = null;
-
-		// SQL que queremos lanzar
-		String sql = "select * from t_gatos where id = '" + idABuscar + "'";
-
-		// La conexion con BBDD
-		Connection connection = null;
-
-		// Vamos a lanzar una sentencia SQL contra la BBDD
-		// Result set va a contener todo lo que devuelve la BBDD
 		Statement statement = null;
 		ResultSet resultSet = null;
 
 		try {
-			// El Driver que vamos a usar
+
 			Class.forName(DBUtils.DRIVER);
 
-			// Abrimos la conexion con BBDD
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
-			// Vamos a lanzar la sentencia...
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 
-			// Recorremos resultSet, que tiene las filas de la tabla
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 
-				ret = new Gato();
-				
-				// Sacamos las columnas del resultSet
-				int id = resultSet.getInt("id");
-				String nombre = resultSet.getString("nombre");
-				String raza = resultSet.getString("raza");
-				String color = resultSet.getString("color");
+				if (null == ret)
+					ret = new ArrayList<Sesion>();
 
-				// Metemos los datos en Alumno
-				ret.setId(id);
-				ret.setNombre(nombre);
-				ret.setRaza(raza);
-				ret.setColor(color);
+				Sesion sesion = new Sesion(0, 0, null, null, 0, 0, 0);
 
+				int id_sesion = resultSet.getInt("id_sesion");
+				int id_sala = resultSet.getInt("id_sala");
+				Date fecha_hora_inicio = resultSet.getDate("fecha_hora_inicio");
+				Date fecha_hora_fin = resultSet.getDate("fecha_hora_fin");
+				double precio = resultSet.getDouble("precio");
+				int num_espectadores = resultSet.getInt("num_espectadores");
+				int id_pelicula = resultSet.getInt("id_pelicula");
+
+				sesion.setId_sesion(id_sesion);
+				sesion.setId_sala(id_sala);
+				sesion.setFecha_hora_inicio(fecha_hora_inicio);
+				sesion.setFecha_hora_fin(fecha_hora_fin);
+				sesion.setPrecio(precio);
+				sesion.setNum_espectadores(num_espectadores);
+				sesion.setId_pelicula(id_pelicula);
+
+				ret.add(sesion);
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
 		} catch (Exception e) {
 			System.out.println("Error generico - " + e.getMessage());
 		} finally {
-			// Cerramos al reves de como las abrimos
+
 			try {
 				if (resultSet != null)
 					resultSet.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (statement != null)
 					statement.close();
 			} catch (Exception e) {
-				// No hace falta
+
 			}
 			try {
 				if (connection != null)
 					connection.close();
 			} catch (Exception e) {
-				// No hace falta
+
+			}
+		}
+		return ret;
+	}
+
+	public ArrayList<Sesion> getSesionesDisponibles() {
+		ArrayList<Sesion> ret = null;
+
+		String sql = "select * from sesion where current_timestamp < fecha_hora_inicio order by fecha_hora_inicio";
+
+		Connection connection = null;
+
+		Statement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			Class.forName(DBUtils.DRIVER);
+
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+
+				if (null == ret)
+					ret = new ArrayList<Sesion>();
+
+				Sesion sesion = new Sesion(0, 0, null, null, 0, 0, 0);
+
+				int id_sesion = resultSet.getInt("id_sesion");
+				int id_sala = resultSet.getInt("id_sala");
+				Date fecha_hora_inicio = resultSet.getDate("fecha_hora_inicio");
+				Date fecha_hora_fin = resultSet.getDate("fecha_hora_fin");
+				double precio = resultSet.getDouble("precio");
+				int num_espectadores = resultSet.getInt("num_espectadores");
+				int id_pelicula = resultSet.getInt("id_pelicula");
+
+				sesion.setId_sesion(id_sesion);
+				sesion.setId_sala(id_sala);
+				sesion.setFecha_hora_inicio(fecha_hora_inicio);
+				sesion.setFecha_hora_fin(fecha_hora_fin);
+				sesion.setPrecio(precio);
+				sesion.setNum_espectadores(num_espectadores);
+				sesion.setId_pelicula(id_pelicula);
+
+				ret.add(sesion);
+			}
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (Exception e) {
+
+			}
+			try {
+				if (statement != null)
+					statement.close();
+			} catch (Exception e) {
+
+			}
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+
 			}
 		}
 		return ret;
