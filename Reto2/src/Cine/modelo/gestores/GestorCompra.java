@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import Cine.modelo.pojo.Compra;
 import Cine.modelo.utils.DBUtils;
 
+
 public class GestorCompra {
 
 	public ArrayList<Compra> getAllCompras() {
 		ArrayList<Compra> ret = null;
+		
 
 		String sql = "select * from compra";
 
