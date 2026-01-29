@@ -1,13 +1,9 @@
 package Cine.Test;
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.pojo.Cliente;
 
@@ -24,7 +20,7 @@ public class GestorClienteTest {
 	public void testGetAllClientes() {
 		ArrayList<Cliente> resultado = clientes.getAllClientes();
 		assertNotNull("La lista de cliente no deberia ser nula" + resultado);
-		
+
 	}
 
 	@Test

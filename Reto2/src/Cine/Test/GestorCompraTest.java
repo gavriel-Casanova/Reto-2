@@ -11,6 +11,7 @@ import Cine.modelo.gestores.GestorCompra;
 
 import Cine.modelo.pojo.Compra;
 
+
 public class GestorCompraTest {
 	private static GestorCompra compras = null;// Declara una variable estática para almacenar la lista de cliente.
 	
@@ -23,10 +24,9 @@ public class GestorCompraTest {
 	public void testGetAllCompras() {
 		ArrayList<Compra> resultado = compras.getAllCompras();//Llama al metodo para obtener todas las compras
 		assertNotNull("La lista de compras no deberia ser nula",resultado);// Verifica que el resultado no sea nulo
-		//assertFalse("La lista de compras debería contener al menos una compra",resultado.isEmpty());
+		
 
 	}
-
 	
 	@Test
 	public void testInsert() {
