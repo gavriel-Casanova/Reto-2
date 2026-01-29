@@ -86,7 +86,7 @@ public class controlador {
 	}
 
 	/**
-	 * Se encarga de que el usuario seleccione una pelicura
+	 * Se encarga de que el usuario seleccione una pelicula
 	 * 
 	 * @return -> la pelicula seleccionada
 	 */

@@ -71,8 +71,8 @@ public class Menu {
 				boolean quiereFactura = controlador.PreguntarSiONo();
 
 				if (quiereFactura == true) {
-					controlador.mostrarFactura(cliente);
 					controlador.imprimirTicket(cliente);
+					controlador.mostrarFactura(cliente);	
 				}
 				System.out.println("gracias por su compra");
 			}
@@ -91,7 +91,6 @@ public class Menu {
 	private Cliente login(controlador controlador) {
 		Cliente ret = null;
 		boolean bloqueo = false;
-		int intentos = 0;
 		while (bloqueo == false) {
 			System.out.print("Ingrese su DNI: ");
 			String DNI = sc.nextLine();
