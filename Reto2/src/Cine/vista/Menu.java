@@ -36,8 +36,8 @@ public class Menu {
 			controlador.MostrarPeliculasPorOrdenDeSesion();
 			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
 			if (peliculaSeleccionada != null) {
-				controlador.MostrarSesionesDeUnaPelicula(peliculaSeleccionada);
-				seguirCompra = controlador.SeleccionarSesion(peliculaSeleccionada);
+				controlador.mostrarSesionesDeUnaPelicula(peliculaSeleccionada);
+				seguirCompra = controlador.seleccionarSesion(peliculaSeleccionada);
 				if (!seguirCompra) {
 					seguirCompra = controlador.seguirComprando();
 					controlador.enseñarCarrito();

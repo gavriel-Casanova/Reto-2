@@ -115,7 +115,7 @@ public class controlador {
 	 * 
 	 * @param pelicula -> necesita una pelicula para funcionar
 	 */
-	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
+	public void mostrarSesionesDeUnaPelicula(Pelicula pelicula) {
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
@@ -133,7 +133,7 @@ public class controlador {
 	 * @param pelicula -> pelicula seleccionada
 	 * @return -> true si se cancelo o false se agrego la sesion
 	 */
-	public boolean SeleccionarSesion(Pelicula pelicula) {
+	public boolean seleccionarSesion(Pelicula pelicula) {
 
 		boolean ret = false;
 		GestorSesion gestorSesion = new GestorSesion();
