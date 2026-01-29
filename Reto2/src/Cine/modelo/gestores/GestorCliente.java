@@ -81,7 +81,7 @@ public class GestorCliente {
 		return ret;
 	}
 
-	public void insert(Cliente log) {
+	public void insert(Cliente log) { //
 
 		Connection connection = null;
 

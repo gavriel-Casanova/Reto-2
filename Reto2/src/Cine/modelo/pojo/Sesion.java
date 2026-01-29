@@ -1,6 +1,7 @@
+
 package Cine.modelo.pojo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 public class Sesion {
@@ -96,3 +97,4 @@ public class Sesion {
 				+ ", id_pelicula=" + id_pelicula + "]";
 	}
 }
+
