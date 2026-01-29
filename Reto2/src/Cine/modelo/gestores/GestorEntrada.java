@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import Cine.modelo.pojo.Entrada;
 import Cine.modelo.utils.DBUtils;
+
 
 public class GestorEntrada {
 
@@ -55,6 +55,7 @@ public class GestorEntrada {
 
 				ret.add(entrada);
 			}
+			
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
 		} catch (Exception e) {
@@ -79,6 +80,7 @@ public class GestorEntrada {
 			} catch (Exception e) {
 
 			}
+			
 		}
 		return ret;
 	}

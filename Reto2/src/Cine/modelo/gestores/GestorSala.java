@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import Cine.modelo.pojo.Sala;
 import Cine.modelo.utils.DBUtils;
+
 
 public class GestorSala {
 	public ArrayList<Sala> getAllSala() {
