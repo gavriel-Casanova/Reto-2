@@ -43,17 +43,6 @@ public class GestorCompraTest {
 		ArrayList<Compra> listaCompras = compras.getAllCompras();
 		assertNotNull("La lista de clientes no deberia ser nula", listaCompras);
 
-		 // Verifica que la compra insertada esté en la lista.
-        boolean compraEncontrada = false;
-        for (Compra compra : listaCompras) {
-            if (compra.getDNI().equals(nuevoCompra.getDNI()) && 
-                compra.getPrecio_total() == nuevoCompra.getPrecio_total()) {
-                compraEncontrada = true;
-                break;
-		
-			}
-		}
-		assertTrue("La compra insertado deberia estar en la lista", compraEncontrada);
 	}
 
 

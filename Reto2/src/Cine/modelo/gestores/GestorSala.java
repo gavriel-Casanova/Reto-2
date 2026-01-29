@@ -37,7 +37,7 @@ public class GestorSala {
 
 				Sala sala = new Sala();
 
-				int id_sala = resultSet.getInt(" id_sala");
+				int id_sala = resultSet.getInt("id_sala");
 				String nombre = resultSet.getString("nombre");
 
 				sala.setId_sala(id_sala);
@@ -72,51 +72,11 @@ public class GestorSala {
 		}
 		return ret;
 	}
-
-	public void insert(Sala sala) {
-
-		Connection connection = null;
-
-		Statement statement = null;
-
-		try {
-
-			Class.forName(DBUtils.DRIVER);
-
-			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
-
-			statement = connection.createStatement();
-
-			String sql = "insert into sala (id_sala, nombre) VALUES ('" + sala.getId_sala() + "', '" + sala.getNombre()
-					+ "')";
-
-			statement.executeUpdate(sql);
-
-		} catch (SQLException sqle) {
-			System.out.println("Error con la BBDD - " + sqle.getMessage());
-		} catch (Exception e) {
-			System.out.println("Error generico - " + e.getMessage());
-		} finally {
-
-			try {
-				if (statement != null)
-					statement.close();
-			} catch (Exception e) {
-
-			}
-			try {
-				if (connection != null)
-					connection.close();
-			} catch (Exception e) {
-
-			}
-		}
-	}
-
+	
 	public Sala getId_salaById(int idABuscar) {
 		Sala ret = null;
 
-		String sql = "select * from sala where id = '" + idABuscar + "'";
+		String sql = "select * from sala where id_sala = '" + idABuscar + "'";
 
 		Connection connection = null;
 
