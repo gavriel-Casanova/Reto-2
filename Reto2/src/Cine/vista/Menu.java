@@ -1,8 +1,9 @@
 package Cine.vista;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import Cine.controlador.controlador;
+import Cine.controlador.Controlador;
 import Cine.modelo.pojo.Cliente;
 import Cine.modelo.pojo.Compra;
 import Cine.modelo.pojo.Pelicula;
@@ -10,76 +11,95 @@ import Cine.modelo.pojo.Pelicula;
 public class Menu {
 
 	public static Scanner sc = new Scanner(System.in);
-	private Cliente cliente = null;
 
-	public void Iniciar() {
+	private Cliente cliente = null;
+	private Controlador controlador = null;
+
+	public Menu() {
+		controlador = new Controlador();
+	}
+
+	public void iniciar() {
 		try {
 			do {
-				MenuPrincipal();
+				menuPrincipal();
 			} while (true);
 		} catch (Exception e) {
 			System.out.println("Fatal error");
 		}
 	}
 
-	private void MenuPrincipal() {
-
-		boolean seguirCompra = false;
-		controlador controlador = new controlador();
+	private void menuPrincipal() {
 
 		System.out.println("		Bienvenido ");
 
 		System.out.println("             Pulsa Enter para continuar...");
 		sc.nextLine().trim();
 
+		// --- COSA 1
+
+		boolean seguirComprando = false;
 		do {
-			controlador.MostrarPeliculasPorOrdenDeSesion();
+			ArrayList<Pelicula> peliculas = controlador.mostrarPeliculasPorOrdenDeSesion();
+			if (null != peliculas) {
+				for (int i = 0; i < peliculas.size(); i++) {
+					System.out.println(peliculas.get(i).getId_pelicula() + " ) " + peliculas.get(i).getNombre());
+				}
+				System.out.println("0 - salir");
+			}
+			
+			// PASAR el peliculas
 			Pelicula peliculaSeleccionada = controlador.seleccionDePelicula();
-			if (peliculaSeleccionada != null) {
+
+			if (null != peliculaSeleccionada) {
 				controlador.mostrarSesionesDeUnaPelicula(peliculaSeleccionada);
-				seguirCompra = controlador.seleccionarSesion(peliculaSeleccionada);
-				if (!seguirCompra) {
-					seguirCompra = controlador.seguirComprando();
+				boolean seleccionado = controlador.seleccionarSesion(peliculaSeleccionada);
+				if (!seleccionado) {
+					seguirComprando = controlador.seguirComprando();
 					controlador.enseñarCarrito();
 				}
-
-			} else {
-				seguirCompra = false;
 			}
-		} while (seguirCompra == true);
 
-		if (controlador.programStatus() == false) {
+		} while (seguirComprando == true);
+
+		// --- COSA 2
+
+		if (!controlador.carritoVacio()) {
+
 			controlador.calcularDescuento();
 
 			System.out.println("Esta de acuerdo con su compra?");
-			boolean deAcuerdo = controlador.PreguntarSiONo();
+			boolean deAcuerdo = controlador.preguntarSiONo();
 
 			if (deAcuerdo) {
 				System.out.println("Se ecuentra registrado?");
-				boolean registro = controlador.PreguntarSiONo();
-				if (registro == true) {
-					cliente = login(controlador);
+				boolean registro = controlador.preguntarSiONo();
+				if (registro) {
+					cliente = login();
 				} else {
 					cliente = controlador.registrarUsuario();
 				}
+
+				// Consultar... ^__^
+				// cliente = registro ? login(): controlador.registrarUsuario();
 
 				Compra compra = controlador.generarCompra(cliente);
 				controlador.generarEntradas(compra);
 
 				System.out.println("-- Compra realizada con exito --");
 				System.out.println(" Desea factura? ");
-				boolean quiereFactura = controlador.PreguntarSiONo();
+				boolean quiereFactura = controlador.preguntarSiONo();
 
-				if (quiereFactura == true) {
+				if (quiereFactura) {
 					controlador.imprimirTicket(cliente);
-					controlador.mostrarFactura(cliente);	
+					controlador.mostrarFactura(cliente);
 				}
 				System.out.println("gracias por su compra");
 			}
 
 		}
-		controlador.reiniciarPrograma();
-		espera3s();
+		controlador.vaciarCarrito();
+		esperar();
 	}
 
 	/**
@@ -88,7 +108,7 @@ public class Menu {
 	 * @param controlador -> se usa para comunicarse con la base de datos
 	 * @return -> el cliente logueado
 	 */
-	private Cliente login(controlador controlador) {
+	private Cliente login() {
 		Cliente ret = null;
 		boolean bloqueo = false;
 		while (bloqueo == false) {
@@ -96,10 +116,13 @@ public class Menu {
 			String DNI = sc.nextLine();
 			System.out.print("Ingrese su contraseña: ");
 			String pass = sc.nextLine();
-			bloqueo = controlador.ValidarLogin(DNI, pass);
+			bloqueo = controlador.validarLogin(DNI, pass);
 			if (bloqueo == true) {
 				ret = controlador.getCliente(DNI);
+			} else {
+				System.out.println("DNI o contraseña incorrectos");
 			}
+
 		}
 
 		return ret;
@@ -108,7 +131,7 @@ public class Menu {
 	/**
 	 * Deja el programa en espera durante 3 segundos
 	 */
-	private void espera3s() {
+	private void esperar() {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
