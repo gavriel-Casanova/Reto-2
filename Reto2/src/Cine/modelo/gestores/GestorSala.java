@@ -37,7 +37,7 @@ public class GestorSala {
 
 				Sala sala = new Sala();
 
-				int id_sala = resultSet.getInt("id_sala");
+				int id_sala = resultSet.getInt(" id_sala");
 				String nombre = resultSet.getString("nombre");
 
 				sala.setId_sala(id_sala);
@@ -72,11 +72,12 @@ public class GestorSala {
 		}
 		return ret;
 	}
-	
+
+
 	public Sala getId_salaById(int idABuscar) {
 		Sala ret = null;
 
-		String sql = "select * from sala where id_sala = '" + idABuscar + "'";
+		String sql = "select * from sala where id = '" + idABuscar + "'";
 
 		Connection connection = null;
 

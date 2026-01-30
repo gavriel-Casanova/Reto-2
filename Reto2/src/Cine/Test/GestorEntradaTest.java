@@ -16,9 +16,9 @@ public class GestorEntradaTest {
 
 	@Test
 	public void testInsert() {
-		// Insertamos algunas entradas para probar la recuperación
+		
 		gestorEntrada = new GestorEntrada();
-		// Recuperamos todas las entrada
+		
 		ArrayList<Entrada> entradas = gestorEntrada.getAllEntradas();
 		assertNotNull(entradas);
 

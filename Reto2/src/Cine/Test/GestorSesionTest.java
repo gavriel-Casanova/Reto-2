@@ -27,7 +27,6 @@ public class GestorSesionTest {
 	public void testGetSesionDePelicula() {
 		GestorSesion gestorsesiones = new GestorSesion();
 		ArrayList<Sesion> resultado = gestorsesiones.getSesionDePelicula(1);
-		
 		assertNotNull(resultado);
 	}
 

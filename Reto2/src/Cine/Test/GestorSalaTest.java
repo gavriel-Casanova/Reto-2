@@ -10,31 +10,34 @@ import Cine.modelo.gestores.GestorSala;
 import Cine.modelo.pojo.Sala;
 
 public class GestorSalaTest {
-
+	private GestorSala gestorSala;
 	@BeforeClass
-	public static void setUpBeforeClass() {
-
+	public void setUpBeforeClass(){
+		gestorSala = new GestorSala();
+		  
 	}
 
 	@Test
 	public void testGetAllSala() {
-		GestorSala gestorSala = new GestorSala();
-		// Recuperamos todas las salas
-		ArrayList<Sala> salas = gestorSala.getAllSala();
-		assertNotNull(salas);
-		assertFalse(salas.isEmpty());
+        ArrayList<Sala> salas = gestorSala.getAllSala();
+        assertNotNull(salas);
+        assertFalse(salas.isEmpty());
+        assertEquals(salas.size(),2);
+
+    }
+
+
+	@Test
+	public void testGetId_salaById() {
+		 int idABuscar = 1; // ID de la sala que queremos buscar
+	        Sala actualSala = gestorSala.getId_salaById(idABuscar);
+
+	        assertNotNull(actualSala); 
+	        assertEquals(1, actualSala.getId_sala()); 
+	        assertEquals("Sala 1", actualSala.getNombre());
+	    }
 	}
 
 	
 
-	@Test
-	public void testGetId_salaById() {
-		GestorSala gestorSala = new GestorSala();
-		int idABuscar = 1; // ID de la sala que queremos buscar
-		Sala actualSala = gestorSala.getId_salaById(idABuscar);
 
-		assertNotNull(actualSala); // Verifica que no es nulo
-		assertEquals(1, actualSala.getId_sala()); // Verifica que el ID es correcto
-		assertEquals("Sala 1", actualSala.getNombre()); // Verifica que el nombre es correcto
-	}
-}

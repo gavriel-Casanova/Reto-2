@@ -17,58 +17,55 @@ import Cine.modelo.pojo.Entrada;
 import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.pojo.Sesion;
 
-public class Controlador {
+public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
-
 	private ArrayList<Carrito> carritoTotal = null;
 
-	public Controlador() {
-		carritoTotal = new ArrayList<Carrito>();
-	}
-
 	/**
-	 * Retorna true si el DNI y la contraseña son los correctos contra BBDD. False
-	 * en cualquier otro caso.
+	 * Esta clase valida que el DNI y la contraseña son los correctos
 	 * 
-	 * @param user El DNI del usuario
-	 * @param pass El password del usuario
-	 * @return true o false
+	 * @param uss  = DNI
+	 * @param pass = contraseña
+	 * @return retorna true si es valido el login o false si es invalido
 	 */
-	public boolean validarLogin(String user, String pass) {
+	public boolean ValidarLogin(String uss, String pass) {
 		boolean ret = false;
 
 		GestorCliente gestorCliente = new GestorCliente();
 		ArrayList<Cliente> clientes = gestorCliente.getAllClientes();
 
 		for (int i = 0; i < clientes.size(); i++) {
-			if (user.equalsIgnoreCase(clientes.get(i).getDNI())) {
-				if (user.equalsIgnoreCase(clientes.get(i).getDNI())
+			if (uss.equalsIgnoreCase(clientes.get(i).getDNI())) {
+				if (uss.equalsIgnoreCase(clientes.get(i).getDNI())
 						&& pass.equalsIgnoreCase(clientes.get(i).getContrasenia())) {
 					ret = true;
-					break;
 				}
 			}
 		}
+
+		if (ret == false) {
+			System.out.println("DNI o contraseña incorrectos");
+		}
+
 		return ret;
 	}
 
 	/**
-	 * Retorna el Cliente asociado a un DNI
+	 * Obtiene un cliente por su DNI
 	 * 
-	 * @param dni DNI del usuario
-	 * @return Cliente o null
+	 * @param uss -> DNI del cliente
+	 * @return -> el cliente con ese DNI
 	 */
-	public Cliente getCliente(String dni) {
+	public Cliente getCliente(String uss) {
 		Cliente ret = new Cliente();
 
 		GestorCliente gestorCliente = new GestorCliente();
 		ArrayList<Cliente> clientes = gestorCliente.getAllClientes();
 
 		for (int i = 0; i < clientes.size(); i++) {
-			if (dni.equalsIgnoreCase(clientes.get(i).getDNI())) {
+			if (uss.equalsIgnoreCase(clientes.get(i).getDNI())) {
 				ret = clientes.get(i);
-				break;
 			}
 		}
 		return ret;
@@ -78,13 +75,18 @@ public class Controlador {
 	 * Muestra las peliculas ordenadas segun el orden de las sesiones de mas cercana
 	 * a mas lejana
 	 */
-	public ArrayList<Pelicula> mostrarPeliculasPorOrdenDeSesion() {
+	public void MostrarPeliculasPorOrdenDeSesion() {
 		GestorPelicula gestorPelicula = new GestorPelicula();
-		return gestorPelicula.getAllPeliculasOrdenadasPorSesion();
+		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPeliculasOrdenadasPorSesion();
+
+		for (int i = 0; i < peliculas.size(); i++) {
+			System.out.println(peliculas.get(i).getId_pelicula()+" ) "+peliculas.get(i).getNombre());
+		}
+		System.out.println("0 - salir");
 	}
 
 	/**
-	 * Se encarga de que el usuario seleccione una pelicula
+	 * Se encarga de que el usuario seleccione una pelicura
 	 * 
 	 * @return -> la pelicula seleccionada
 	 */
@@ -96,14 +98,14 @@ public class Controlador {
 		System.out.print("Indique el numero de la pelicula seleccionada: ");
 		int idPelicula = pedirNumeroEnteroRango(peliculas.size());
 
-		if (idPelicula != 0) {
+		if(idPelicula != 0) {
 			for (int i = 0; i < peliculas.size(); i++) {
 				if (peliculas.get(i).getId_pelicula() == idPelicula) {
 					ret = peliculas.get(i);
-					break;
 				}
 			}
 		}
+		
 
 		return ret;
 	}
@@ -113,14 +115,14 @@ public class Controlador {
 	 * 
 	 * @param pelicula -> necesita una pelicula para funcionar
 	 */
-	public void mostrarSesionesDeUnaPelicula(Pelicula pelicula) {
+	public void MostrarSesionesDeUnaPelicula(Pelicula pelicula) {
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
-		System.out.println("Sesiones para la pelicula " + pelicula.getNombre());
+		System.out.println("Sesiones para la pelicula "+pelicula.getNombre());
 		for (int i = 0; i < sesiones.size(); i++) {
-			System.out.println((i + 1) + ")  Fecha y hora - " + sesiones.get(i).getFecha_hora_inicio().toGMTString()
-					+ " - Precio - " + sesiones.get(i).getPrecio() + " - Nº de Sala - " + sesiones.get(i).getId_sala());
+			System.out.println((i + 1) + ")  Fecha y hora - " + sesiones.get(i).getFecha_hora_inicio().toGMTString()+" - Precio - "+sesiones.get(i).getPrecio() 
+					+" - Nº de Sala - "+sesiones.get(i).getId_sala());
 		}
 		System.out.println("0 - salir");
 	}
@@ -131,50 +133,60 @@ public class Controlador {
 	 * @param pelicula -> pelicula seleccionada
 	 * @return -> true si se cancelo o false se agrego la sesion
 	 */
-	public boolean seleccionarSesion(Pelicula pelicula) {
+	public boolean SeleccionarSesion(Pelicula pelicula) {
 
-		boolean ret = true;
+		boolean ret = false;
 		GestorSesion gestorSesion = new GestorSesion();
 		ArrayList<Sesion> sesiones = gestorSesion.getSesionDePelicula(pelicula.getId_pelicula());
 
 		System.out.print("Indique el numero de la sesion seleccionada: ");
 		int idSesion = pedirNumeroEnteroRango(sesiones.size()) - 1;
 
-		if (idSesion < 0) {
+		if (idSesion != -1) {
 			System.out.print("Indique el numero de personas asistentes a la sesion: ");
 			int cantidadPersonas = pedirNumeroEntero();
 
 			Carrito carrito = new Carrito(sesiones.get(idSesion), cantidadPersonas);
-			carritoTotal.add(carrito);
+			if (carritoTotal == null) {
+				carritoTotal = new ArrayList<Carrito>();
+				carritoTotal.add(carrito);
+			} else {
+				carritoTotal.add(carrito);
+			}
 
-			ret = false;
+		} else {
+			ret = true;
 		}
+
 		return ret;
 	}
 
 	/**
 	 * Se encarga de preguntar si quieres seguir comprando o no
 	 * 
-	 * @return -> true = si false = no
+	 * @return -> true = si  
+	 * 			false = no
 	 */
 	public boolean seguirComprando() {
 		boolean ret = false;
+		boolean valido = false;
 
 		System.out.println("Desea seguir comprando? ");
 		System.out.print("SI / NO : ");
 		String seguirCompra = sc.nextLine();
 
-		boolean valido = false;
-		do {
+		while (valido == false) {
 			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
+
 				ret = true;
 				valido = true;
+
 			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
 				valido = true;
 			} else {
 				System.out.println("Respuesta no valida, vuelva a intentar: ");
 			}
-		} while (!valido);
+		}
 
 		return ret;
 	}
@@ -212,9 +224,7 @@ public class Controlador {
 	}
 
 	/**
-	 * Genera las entradas que se hicieron en las compra y la indexa en la base de
-	 * datos
-	 * 
+	 * Genera las entradas que se hicieron en las compra y la indexa en la base de datos
 	 * @param compra -> objeto compra para extraer los datos necesarios
 	 */
 	public void generarEntradas(Compra compra) {
@@ -223,13 +233,14 @@ public class Controlador {
 			double precioTotal = carritoTotal.get(i).getSesion().getPrecio();
 			double descuento20 = 0.20;
 			double descuento30 = 0.30;
+			if (carritoTotal.size() == 1) {
 
-			if (carritoTotal.size() == 2) {
+			} else if (carritoTotal.size() == 2) {
 				// dos sesiones 20%
 				double primerDescuento = precioTotal * descuento20;
 				entrada.setDescuento(primerDescuento);
 				precioTotal = precioTotal - primerDescuento;
-			} else if (carritoTotal.size() >= 3) {
+			} else {
 				// tres o mas sesiones 30%
 				double segundoDescuento = precioTotal * descuento30;
 				entrada.setDescuento(descuento30);
@@ -262,17 +273,20 @@ public class Controlador {
 			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
 		}
 
-		if (carritoTotal.size() == 2) {
+		if (carritoTotal.size() == 1) {
+
+		} else if (carritoTotal.size() == 2) {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
 
 			ret.setDescuento_total(primerDescuento);
 			precioTotal = precioTotal - primerDescuento;
-		} else if (carritoTotal.size() >= 3) {
+		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
 			ret.setDescuento_total(segundoDescuento);
 			precioTotal = precioTotal - segundoDescuento;
+
 		}
 		ret.setPrecio_total(precioTotal);
 		ret.setDNI(cliente.getDNI());
@@ -287,7 +301,6 @@ public class Controlador {
 
 	/**
 	 * Registra un usuario desde 0
-	 * 
 	 * @return -> el nuevo cliente registrado
 	 */
 	public Cliente registrarUsuario() {
@@ -303,7 +316,7 @@ public class Controlador {
 		System.out.print("Ingrese su correo electronico: ");
 		ret.setCorreo_electronico(comprobarCorreo());
 		ret.setContrasenia(comprobarContraseña());
-
+		
 		GestorCliente gestorCliente = new GestorCliente();
 		gestorCliente.insert(ret);
 		System.out.println("-- Registro realizado con exito --");
@@ -313,7 +326,6 @@ public class Controlador {
 
 	/**
 	 * Comprueba si el correo que se quiere ingresar es valido
-	 * 
 	 * @return -> un correo valido
 	 */
 	public String comprobarCorreo() {
@@ -333,11 +345,9 @@ public class Controlador {
 
 		return ret;
 	}
-
+	
 	/**
-	 * Comprueba que el usuario agregue una contraseña sin errores: Usa una
-	 * comprobacion con una confirmacion
-	 * 
+	 * Comprueba que el usuario agregue una contraseña sin errores: Usa una comprobacion con una confirmacion 
 	 * @return -> la contraseña deseada
 	 */
 	public String comprobarContraseña() {
@@ -349,21 +359,20 @@ public class Controlador {
 			String pass1 = sc.nextLine();
 			System.out.print("Confirme su contraseña: ");
 			String pass2 = sc.nextLine();
-
-			if (pass1.equals(pass2)) {
+			
+			if(pass1.equals(pass2)) {
 				ret = pass2;
 				valido = true;
 			} else {
 				System.out.println("Las contraseñas no coinciden, vuelva a intentarlo");
 			}
-
+			
 		} while (!valido);
 		return ret;
 	}
 
 	/**
 	 * Comprueba que el dni contenga una letra valida
-	 * 
 	 * @return -> el dni correcto
 	 */
 	public String comprobarDni() {
@@ -388,7 +397,7 @@ public class Controlador {
 
 		return ret;
 	}
-
+	
 	/**
 	 * muestra el contenido del carrito
 	 */
@@ -396,69 +405,67 @@ public class Controlador {
 		System.out.println("_________________________________________");
 		System.out.println("--- Carrito ----");
 		System.out.println("_________________________________________");
-		for (int i = 0; i < carritoTotal.size(); i++) {
+		for(int i =0;i<carritoTotal.size();i++) {
 			System.out.print("La sesion : ");
-			System.out.println(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString() + "");
+			System.out.println(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString()+"");
 			System.out.print("La pelicula: ");
 			GestorPelicula gestorPelicula = new GestorPelicula();
 			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
 			System.out.print(pelicula.getNombre());
-			System.out.println(" para " + carritoTotal.get(i).getNum_personas() + " Personas");
-
+			System.out.println(" para "+carritoTotal.get(i).getNum_personas()+" Personas");
+			
 			System.out.println("_________________________________________");
 		}
 	}
-
+	
 	/**
 	 * Muestra por consola la factura que se genera en la compra
-	 * 
-	 * @param cliente -> requiere un cliente para mostrar la informacion necesaria
-	 *                de la factura
+	 * @param cliente -> requiere un cliente para mostrar la informacion necesaria de la factura
 	 */
 	public void mostrarFactura(Cliente cliente) {
 		System.out.println("------------------------");
 		System.out.println("		 Factura		");
 		System.out.println("------------------------");
-		System.out.println(" DNI: " + cliente.getDNI());
-		System.out.println(" Cliente: " + cliente.getNombre() + " " + cliente.getApellido());
+		System.out.println(" DNI: "+cliente.getDNI());
+		System.out.println(" Cliente: "+cliente.getNombre()+" "+cliente.getApellido());
 		System.out.println("----------------------------------");
-		for (int i = 0; i < carritoTotal.size(); i++) {
+		for(int i =0;i<carritoTotal.size();i++) {
 			System.out.print("La pelicula: ");
 			GestorPelicula gestorPelicula = new GestorPelicula();
 			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
 			System.out.print(pelicula.getNombre());
-			System.out.print(" para " + carritoTotal.get(i).getNum_personas() + " personas en la");
+			System.out.print(" para "+carritoTotal.get(i).getNum_personas()+" personas en la");
 			System.out.print(" sesion ");
-			System.out.println(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString() + "");
+			System.out.println(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString()+"");
 			System.out.println("-----------------------------------");
 		}
-
+		
 		GestorCompra gestorCompra = new GestorCompra();
 		Compra compra = new Compra();
 		compra.setDNI(cliente.getDNI());
 		compra = gestorCompra.getCompraByDNIAndFecha(compra);
-
-		System.out.println("Descuento: " + compra.getDescuento_total());
-		System.out.println("Precio total: " + compra.getPrecio_total());
-		vaciarCarrito();
+		
+		System.out.println("Descuento: "+compra.getDescuento_total());
+		System.out.println("Precio total: "+compra.getPrecio_total());
+		reiniciarPrograma();
 	}
-
+	
 	public void imprimirTicket(Cliente cliente) {
 		GestorFicheros gestorFicheros = new GestorFicheros();
-
+		
 		gestorFicheros.sobreescribirFichero("------------------------");
 		gestorFicheros.actualizarFichero("		 Factura		");
-		gestorFicheros.actualizarFichero(" DNI: " + cliente.getDNI());
-		gestorFicheros.actualizarFichero(" Cliente: " + cliente.getNombre() + " " + cliente.getApellido());
+		gestorFicheros.actualizarFichero(" DNI: "+cliente.getDNI());
+		gestorFicheros.actualizarFichero(" Cliente: "+cliente.getNombre()+" "+cliente.getApellido());
 		gestorFicheros.actualizarFichero("----------------------------------");
-		for (int i = 0; i < carritoTotal.size(); i++) {
+		for(int i =0;i<carritoTotal.size();i++) {
 			gestorFicheros.actualizarFichero("La pelicula: ");
 			GestorPelicula gestorPelicula = new GestorPelicula();
 			Pelicula pelicula = gestorPelicula.getPeliculaById(carritoTotal.get(i).getSesion().getId_pelicula());
 			gestorFicheros.actualizarFichero(pelicula.getNombre());
-			gestorFicheros.actualizarFichero(" para " + carritoTotal.get(i).getNum_personas() + " personas en la");
+			gestorFicheros.actualizarFichero(" para "+carritoTotal.get(i).getNum_personas()+" personas en la");
 			gestorFicheros.actualizarFichero(" sesion ");
-			gestorFicheros.actualizarFichero(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString() + "");
+			gestorFicheros.actualizarFichero(carritoTotal.get(i).getSesion().getFecha_hora_inicio().toGMTString()+"");
 			gestorFicheros.actualizarFichero("-----------------------------------");
 		}
 	}
@@ -466,19 +473,25 @@ public class Controlador {
 	/**
 	 * Reinicia las variables de clase para que sean usadas nuevamente
 	 */
-	public void vaciarCarrito() {
-		carritoTotal.clear();
+	public void reiniciarPrograma() {
+		carritoTotal = null;
 	}
-
+	
 	/**
 	 * Indica si el programa es apto para el uso
-	 * 
-	 * @return -> true = es apto false = no es apto
+	 * @return -> true = es apto 
+	 * 			false = no es apto
 	 */
-	public boolean carritoVacio() {
-		return carritoTotal == null;
+	public boolean programStatus() {
+		boolean ret = false;
+		
+		if (carritoTotal == null) {
+			ret = true;
+		}
+		
+		return ret;
 	}
-
+	
 	/**
 	 * solicita un numero entero y lo devuelve
 	 */
@@ -502,9 +515,7 @@ public class Controlador {
 	}
 
 	/**
-	 * pide un numero entero dentro de un rango entre 0 y n y devuelve el numero
-	 * correcto
-	 * 
+	 * pide un numero entero dentro de un rango entre 0 y n y devuelve el numero correcto 
 	 * @param maximo -> el numero maximo al q puede llegar
 	 * @return -> el numero dentro del rango
 	 */
@@ -514,12 +525,12 @@ public class Controlador {
 		do {
 			try {
 				numero = sc.nextInt();
-				if (numero >= 0 && numero <= maximo) {
+				if(numero >= 0 && numero <= maximo) {
 					numeroValido = true;
 				} else {
 					System.out.print("Numero fuera del menu, vuelva a intentarlo: ");
 				}
-
+				
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
@@ -533,7 +544,7 @@ public class Controlador {
 	 * 
 	 * @return -> true = si o false = no
 	 */
-	public boolean preguntarSiONo() {
+	public boolean PreguntarSiONo() {
 		boolean ret = false;
 		boolean valido = false;
 		System.out.print("SI / NO : ");
