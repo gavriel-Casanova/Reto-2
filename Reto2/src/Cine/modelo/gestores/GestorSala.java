@@ -11,6 +11,10 @@ import Cine.modelo.utils.DBUtils;
 
 
 public class GestorSala {
+	/**
+	 * retorna una lista con todas las salas de la base de datos
+	 * @return lista de salas
+	 */
 	public ArrayList<Sala> getAllSala() {
 		ArrayList<Sala> ret = null;
 
@@ -74,6 +78,11 @@ public class GestorSala {
 	}
 
 
+	/**
+	 * devuelve una sala con un id determinado
+	 * @param idABuscar id a buscar
+	 * @return un objeto sala 
+	 */
 	public Sala getId_salaById(int idABuscar) {
 		Sala ret = null;
 
