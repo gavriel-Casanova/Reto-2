@@ -172,21 +172,20 @@ public class controlador {
 		boolean valido = false;
 
 		System.out.println("Desea seguir comprando? ");
-		System.out.print("SI / NO : ");
-		String seguirCompra = sc.nextLine();
+		do {
+			System.out.print("SI / NO : ");
+			String seguirCompra = sc.nextLine();
 
-		while (valido == false) {
 			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
-
 				ret = true;
 				valido = true;
 
 			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
 				valido = true;
 			} else {
-				System.out.println("Respuesta no valida, vuelva a intentar: ");
+				System.out.println("Respuesta no valida, vuelva a intentar ");
 			}
-		}
+		}while (!valido);
 
 		return ret;
 	}
@@ -447,7 +446,7 @@ public class controlador {
 		
 		System.out.println("Descuento: "+compra.getDescuento_total());
 		System.out.println("Precio total: "+compra.getPrecio_total());
-		reiniciarPrograma();
+		
 	}
 	
 	/**
@@ -538,6 +537,7 @@ public class controlador {
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
+				System.out.print("Intente nuevamente: ");
 			}
 		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
@@ -551,21 +551,20 @@ public class controlador {
 	public boolean PreguntarSiONo() {
 		boolean ret = false;
 		boolean valido = false;
-		System.out.print("SI / NO : ");
-		String seguirCompra = sc.nextLine();
+		do {
+			System.out.print("SI / NO : ");
+			String seguirCompra = sc.nextLine();
 
-		while (valido == false) {
 			if (seguirCompra.equalsIgnoreCase("Si") || seguirCompra.equalsIgnoreCase("S")) {
-
 				ret = true;
 				valido = true;
 
 			} else if (seguirCompra.equalsIgnoreCase("No") || seguirCompra.equalsIgnoreCase("N")) {
 				valido = true;
 			} else {
-				System.out.println("Respuesta no valida, vuelva a intentar: ");
+				System.out.println("Respuesta no valida, vuelva a intentar ");
 			}
-		}
+		}while (!valido);
 
 		return ret;
 	}
