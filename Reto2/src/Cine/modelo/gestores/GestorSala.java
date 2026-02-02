@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import Cine.modelo.pojo.Sala;
 import Cine.modelo.utils.DBUtils;
 
+
 public class GestorSala {
+	/**
+	 * retorna una lista con todas las salas de la base de datos
+	 * @return lista de salas
+	 */
 	public ArrayList<Sala> getAllSala() {
 		ArrayList<Sala> ret = null;
 
@@ -73,46 +77,12 @@ public class GestorSala {
 		return ret;
 	}
 
-	public void insert(Sala sala) {
 
-		Connection connection = null;
-
-		Statement statement = null;
-
-		try {
-
-			Class.forName(DBUtils.DRIVER);
-
-			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
-
-			statement = connection.createStatement();
-
-			String sql = "insert into sala (id_sala, nombre) VALUES ('" + sala.getId_sala() + "', '" + sala.getNombre()
-					+ "')";
-
-			statement.executeUpdate(sql);
-
-		} catch (SQLException sqle) {
-			System.out.println("Error con la BBDD - " + sqle.getMessage());
-		} catch (Exception e) {
-			System.out.println("Error generico - " + e.getMessage());
-		} finally {
-
-			try {
-				if (statement != null)
-					statement.close();
-			} catch (Exception e) {
-
-			}
-			try {
-				if (connection != null)
-					connection.close();
-			} catch (Exception e) {
-
-			}
-		}
-	}
-
+	/**
+	 * devuelve una sala con un id determinado
+	 * @param idABuscar id a buscar
+	 * @return un objeto sala 
+	 */
 	public Sala getId_salaById(int idABuscar) {
 		Sala ret = null;
 

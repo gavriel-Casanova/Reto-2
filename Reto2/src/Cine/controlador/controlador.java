@@ -450,6 +450,10 @@ public class controlador {
 		reiniciarPrograma();
 	}
 	
+	/**
+	 * Imprime en un fichero el ticket, con un objeto cliente
+	 * @param cliente 
+	 */
 	public void imprimirTicket(Cliente cliente) {
 		GestorFicheros gestorFicheros = new GestorFicheros();
 		

@@ -1,3 +1,4 @@
+
 package Cine.modelo.gestores;
 
 import java.sql.Connection;
@@ -12,6 +13,10 @@ import Cine.modelo.pojo.Sesion;
 import Cine.modelo.utils.DBUtils;
 
 public class GestorSesion {
+	/**
+	 * devuelve una lista de todas las sesiones de la base de datos
+	 * @return una lista de sesiones
+	 */
 	public ArrayList<Sesion> getAllSesion() {
 		ArrayList<Sesion> ret = null;
 
@@ -84,6 +89,11 @@ public class GestorSesion {
 		return ret;
 	}
 
+	/**
+	 * devuelve una lista de las sesiones correspondientes a una pelicula seleccionada
+	 * @param idPelicula id de la pelicula seleccionada
+	 * @return una lista de sesiones
+	 */
 	public ArrayList<Sesion> getSesionDePelicula(int idPelicula) {
 		ArrayList<Sesion> ret = null;
 
@@ -157,6 +167,10 @@ public class GestorSesion {
 		return ret;
 	}
 
+	/**
+	 * retorna una lista de las sesiones disponibles
+	 * @return una lista de sesiones
+	 */
 	public ArrayList<Sesion> getSesionesDisponibles() {
 		ArrayList<Sesion> ret = null;
 

@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import Cine.modelo.pojo.Entrada;
 import Cine.modelo.utils.DBUtils;
 
+
 public class GestorEntrada {
 
+	/**
+	 * retorna una lista con todas las entradas
+	 * @return lista de entrada
+	 */
 	public ArrayList<Entrada> getAllEntradas() {
 		ArrayList<Entrada> ret = null;
 
@@ -55,6 +59,7 @@ public class GestorEntrada {
 
 				ret.add(entrada);
 			}
+			
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
 		} catch (Exception e) {
@@ -79,10 +84,15 @@ public class GestorEntrada {
 			} catch (Exception e) {
 
 			}
+			
 		}
 		return ret;
 	}
 
+	/**
+	 * inserta una entrada a la base de datos 
+	 * @param log un objeto entrada
+	 */
 	public void insert(Entrada log) {
 
 		Connection connection = null;

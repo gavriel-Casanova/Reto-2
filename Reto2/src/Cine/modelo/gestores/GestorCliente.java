@@ -13,6 +13,10 @@ import Cine.modelo.utils.DBUtils;
 
 public class GestorCliente {
 
+	/**
+	 * obtiene todos los clientes de la base de datos
+	 * @return una lista de clientes
+	 */
 	public ArrayList<Cliente> getAllClientes() {
 		ArrayList<Cliente> ret = null;
 
@@ -81,7 +85,11 @@ public class GestorCliente {
 		return ret;
 	}
 
-	public void insert(Cliente log) {
+	/**
+	 * inserta un cliente en la base de datos
+	 * @param log un objeto cliente
+	 */
+	public void insert(Cliente log) { //
 
 		Connection connection = null;
 
