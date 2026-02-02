@@ -446,7 +446,7 @@ public class controlador {
 		
 		System.out.println("Descuento: "+compra.getDescuento_total());
 		System.out.println("Precio total: "+compra.getPrecio_total());
-		reiniciarPrograma();
+		
 	}
 	
 	/**
