@@ -15,6 +15,10 @@ import Cine.modelo.utils.DBUtils;
 
 public class GestorCompra {
 
+	/**
+	 * obtiene todas las compras de la base de datos
+	 * @return una lista de compras
+	 */
 	public ArrayList<Compra> getAllCompras() {
 		ArrayList<Compra> ret = null;
 		
@@ -84,6 +88,10 @@ public class GestorCompra {
 		return ret;
 	}
 
+	/**
+	 * inserta una compra en la base de datos 
+	 * @param log un objeto compra
+	 */
 	public void insert(Compra log) {
 
 		Connection connection = null;
@@ -128,6 +136,11 @@ public class GestorCompra {
 		}
 	}
 
+	/**
+	 * retorna una compra por medio de un dni y la fecha 
+	 * @param compra un objeto compra
+	 * @return un objeto compra
+	 */
 	public Compra getCompraByDNIAndFecha(Compra compra) {
 		Compra ret = null;
 

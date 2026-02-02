@@ -11,7 +11,10 @@ import Cine.modelo.pojo.Pelicula;
 import Cine.modelo.utils.DBUtils;
 
 public class GestorPelicula {
-
+	/**
+	 * retorna una lista con todas las peliculas 
+	 * @return lista de peliculas
+	 */
 	public ArrayList<Pelicula> getAllPelicula() {
 		ArrayList<Pelicula> ret = null;
 
@@ -78,6 +81,10 @@ public class GestorPelicula {
 		return ret;
 	}
 
+	/**
+	 * retorna una lista con las peliculas ordenadas desde la fecha y la hora mas cercana hasta la mas lejana 
+	 * @return una lista de peliculas
+	 */
 	public ArrayList<Pelicula> getAllPeliculasOrdenadasPorSesion() {
 		ArrayList<Pelicula> ret = null;
 
@@ -144,6 +151,12 @@ public class GestorPelicula {
 		return ret;
 	}
 
+	
+	/**
+	 * retorna una pelicula con un id especificado
+	 * @param id entero con el id 
+	 * @return un objeto pelicula
+	 */
 	public Pelicula getPeliculaById(int id) {
 		Pelicula ret = null;
 

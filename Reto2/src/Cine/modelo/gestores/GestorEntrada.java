@@ -13,6 +13,10 @@ import Cine.modelo.utils.DBUtils;
 
 public class GestorEntrada {
 
+	/**
+	 * retorna una lista con todas las entradas
+	 * @return lista de entrada
+	 */
 	public ArrayList<Entrada> getAllEntradas() {
 		ArrayList<Entrada> ret = null;
 
@@ -85,6 +89,10 @@ public class GestorEntrada {
 		return ret;
 	}
 
+	/**
+	 * inserta una entrada a la base de datos 
+	 * @param log un objeto entrada
+	 */
 	public void insert(Entrada log) {
 
 		Connection connection = null;

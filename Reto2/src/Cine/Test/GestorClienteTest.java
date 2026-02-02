@@ -8,11 +8,11 @@ import Cine.modelo.gestores.GestorCliente;
 import Cine.modelo.pojo.Cliente;
 
 public class GestorClienteTest {
-	private static GestorCliente clientes = null;// Declara una variable estática para almacenar la lista de cliente.
+	private static GestorCliente clientes = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		clientes = new GestorCliente(); // Inicializa la instancia de GestorCliente antes de ejecutar las pruebas.
+		clientes = new GestorCliente(); 
 
 	}
 
@@ -32,12 +32,30 @@ public class GestorClienteTest {
 		nuevoCliente.setCorreo_electronico("juan@mail.com");
 		nuevoCliente.setContrasenia("pass1");
 
-		// verifica que el cliente se haya añadido correstamente
-		clientes.insert(nuevoCliente);// inserta el nuevo cliente
+		
+		clientes.insert(nuevoCliente);
 		ArrayList<Cliente> listaClientes = clientes.getAllClientes();
 		assertNotNull("La lista de clientes no deberia ser nula", listaClientes);
 
-		// Verifica que el cliente insertadi este en la lista
+
+		boolean clienteEncontrado = false;
+		for (Cliente cliente : listaClientes) {
+			if (cliente.getDNI().equals(nuevoCliente.getDNI())) {
+				clienteEncontrado = true;
+				break;
+			}
+		}
+		assertTrue("El cliente insertado deberia estar en la lista", clienteEncontrado);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testInsertNull() {
+		Cliente nuevoCliente = null;
+		
+		clientes.insert(nuevoCliente);
+		ArrayList<Cliente> listaClientes = clientes.getAllClientes();
+		assertNotNull("La lista de clientes no deberia ser nula", listaClientes);
+
 
 		boolean clienteEncontrado = false;
 		for (Cliente cliente : listaClientes) {

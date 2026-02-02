@@ -23,7 +23,7 @@ public class GestorPeliculaTest {
 		gestorPelicula = new GestorPelicula();
 		ArrayList<Pelicula> peliculas = gestorPelicula.getAllPelicula();
 
-		// Verificamos que la lista no esté vacía y contenga la película que insertamos
+		
 		assertNotNull(peliculas);
 
 	}
@@ -38,10 +38,10 @@ public class GestorPeliculaTest {
 
 	@Test
 	public void testGetPeliculaById() {
-		// Ahora, recuperamos la película por ID
+		
 		Pelicula retrievedPelicula = gestorPelicula.getPeliculaById(2);
 
-		// Verificamos que la película recuperada sea la correcta
+		
 		assertNotNull(retrievedPelicula);
 
 	}
