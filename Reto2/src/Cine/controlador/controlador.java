@@ -534,6 +534,7 @@ public class controlador {
 			} catch (InputMismatchException e) {
 				sc.nextLine();
 				System.out.println("Lo siento, se esperaba un numero");
+				System.out.print("Intente nuevamente: ");
 			}
 		} while (!numeroValido || numero < 0 || numero > maximo);
 		return numero;
