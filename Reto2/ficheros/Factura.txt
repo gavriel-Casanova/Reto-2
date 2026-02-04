@@ -1,0 +1,11 @@
+------------------------
+		 Factura		
+ DNI: 11111111A
+ Cliente: Juan Pérez
+----------------------------------
+La pelicula: 
+Titanic
+ para 1 personas en la
+ sesion 
+4 Feb 2026 23:00:00 GMT
+-----------------------------------

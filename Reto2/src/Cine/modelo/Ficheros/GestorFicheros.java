@@ -14,7 +14,7 @@ public class GestorFicheros {
 	
 
 	private static final String NOMBRE_FICHERO = "Factura.txt";
-	private static final String RUTA_ABSOLUTA_FICHERO = "c:\\Trastero\\";
+	private static final String RUTA_ABSOLUTA_FICHERO = "ficheros/";
 	
 	/**
 	 * Escribe un texto pasado por parametro en el fichero
