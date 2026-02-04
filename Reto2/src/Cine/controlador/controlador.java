@@ -202,7 +202,7 @@ public class controlador {
 		double descuento30 = 0.30;
 
 		for (int i = 0; i < carritoTotal.size(); i++) {
-			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
+			precioTotal = (carritoTotal.get(i).getSesion().getPrecio()* carritoTotal.get(i).getNum_personas()) + precioTotal;
 		}
 
 		if (carritoTotal.size() == 1) {
@@ -231,7 +231,7 @@ public class controlador {
 	public void generarEntradas(Compra compra) {
 		for (int i = 0; i < carritoTotal.size(); i++) {
 			Entrada entrada = new Entrada();
-			double precioTotal = carritoTotal.get(i).getSesion().getPrecio();
+			double precioTotal = (carritoTotal.get(i).getSesion().getPrecio()* carritoTotal.get(i).getNum_personas());
 			double descuento20 = 0.20;
 			double descuento30 = 0.30;
 			if (carritoTotal.size() == 1) {
@@ -271,7 +271,7 @@ public class controlador {
 		double descuento30 = 0.30;
 
 		for (int i = 0; i < carritoTotal.size(); i++) {
-			precioTotal = carritoTotal.get(i).getSesion().getPrecio() + precioTotal;
+			precioTotal = (carritoTotal.get(i).getSesion().getPrecio()* carritoTotal.get(i).getNum_personas()) + precioTotal;
 		}
 
 		if (carritoTotal.size() == 1) {
