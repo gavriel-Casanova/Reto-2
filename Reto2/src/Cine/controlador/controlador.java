@@ -3,6 +3,7 @@ package Cine.controlador;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 import Cine.modelo.Ficheros.GestorFicheros;
 import Cine.modelo.gestores.GestorCliente;
@@ -21,6 +22,7 @@ public class controlador {
 
 	public static Scanner sc = new Scanner(System.in);
 	private ArrayList<Carrito> carritoTotal = null;
+	DecimalFormat df = new DecimalFormat("#.##");
 
 	/**
 	 * Esta clase valida que el DNI y la contraseña son los correctos
@@ -209,16 +211,16 @@ public class controlador {
 			// dos sesiones 20%
 			double primerDescuento = precioTotal * descuento20;
 			precioTotal = precioTotal - primerDescuento;
-			System.out.println("TOTAL 20% DESCUENTO: " + (primerDescuento));
+			System.out.println("TOTAL 20% DESCUENTO: " + df.format((primerDescuento)));
 
 		} else {
 			// tres o mas sesiones 30%
 			double segundoDescuento = precioTotal * descuento30;
 			precioTotal = precioTotal - segundoDescuento;
-			System.out.println("TOTAL 30% DESCUENTO: " + (segundoDescuento));
+			System.out.println("TOTAL 30% DESCUENTO: " + df.format((segundoDescuento)));
 		}
 
-		System.out.println("Precio total: " + precioTotal);
+		System.out.println("Precio total: " + df.format(precioTotal));
 
 	}
 
